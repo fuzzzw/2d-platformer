@@ -12,31 +12,23 @@ end
 function love.load()
   box.width = 100
   box.height = 50
-
   box.x = love.graphics.getWidth() / 2 + 75
   box.y = love.graphics.getHeight() / 2 - box.height
 
 	platform.width = love.graphics.getWidth()
 	platform.height = love.graphics.getHeight()
-
 	platform.x = 0
 	platform.y = platform.height / 2
 
   player.width = 32
   player.height = 32
-
 	player.x = love.graphics.getWidth() / 2
 	player.y = love.graphics.getHeight() / 2 - player.height
-
 	player.speed = 200
-
 	player.ground = player.y
-
 	player.y_velocity = 0
-
 	player.jump_height = -400
 	player.gravity = -1000
-
   player.collision = false
   player.blocked_R = false
   player.blocked_L = false
@@ -50,21 +42,26 @@ function love.update(dt)
     local approx_x = 5
 
     if player.y < (box.y - player.height + approx_y) and
-       player.y > (box.y - player.height - approx_y) then
+       player.y > (box.y - player.height - approx_y) and
+       player.y_velocity > 0 then
 
       player.y_velocity = 0
-      player.y = box.y - player.height + 2
+      player.y = box.y - player.height + 1
       player.blocked_R = false
       player.blocked_L = false
     elseif player.x > (box.x - player.width - approx_x) and
-           player.x < (box.x - player.width + approx_x) then
+           player.x < (box.x - player.width + approx_x) and
+           player.y > box.y - player.height + 1 then
       player.blocked_R = true
     elseif player.x > (box.x + box.width - approx_x) and
-           player.x < (box.x + box.width + approx_x) then
+           player.x < (box.x + box.width + approx_x) and
+           player.y > box.y - player.height + 1 then
       player.blocked_L = true
     end
   else
-    if player.collision and not love.keyboard.isDown('space') then
+    if player.collision and
+       not love.keyboard.isDown('space') and
+       player.y_velocity == 0 then
       player.y_velocity = 1
     end
     player.collision = false
@@ -106,10 +103,11 @@ function love.draw()
   end
 	love.graphics.setColor(255, 255, 255)
 
+  --debug
   love.graphics.print( "x:"..math.floor(player.x)..", y:"..math.floor(player.y), 0, 0)
   love.graphics.print("player.collision: "..collision_text, 0, 10)
-  love.graphics.print("box.x: "..box.x, 0, 20)
-  --love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 20)
+  love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 20)
+  love.graphics.print("debuf something: "..(box.y - player.height + 1), 0, 30)
 
   love.graphics.rectangle('fill', platform.x, platform.y, platform.width, platform.height)
   love.graphics.setColor(255, 0, 0)
