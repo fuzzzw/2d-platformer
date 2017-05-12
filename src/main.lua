@@ -1,19 +1,14 @@
+require "collision"
 box = {}
 platform = {}
 player = {}
-
-function check_collision(x1,y1,w1,h1, x2,y2,w2,h2)
-  return x1 < x2+w2 and
-         x2 < x1+w1 and
-         y1 < y2+h2 and
-         y2 < y1+h1
-end
 
 function love.load()
   box.width = 100
   box.height = 50
   box.x = love.graphics.getWidth() / 2 + 75
   box.y = love.graphics.getHeight() / 2 - box.height
+  box.coll = Collision:new(box.x,box.y,box.width,box.height)
 
 	platform.width = love.graphics.getWidth()
 	platform.height = love.graphics.getHeight()
@@ -32,11 +27,12 @@ function love.load()
   player.collision = false
   player.blocked_R = false
   player.blocked_L = false
+  player.coll = Collision:new(player.x,player.y,player.width,player.height)
+
 end
 
 function love.update(dt)
-  if check_collision(player.x, player.y, player.width, player.height,
-                     box.x, box.y, box.width, box.height) then
+  if player.coll:check_collision(box.coll) then
     player.collision = true
     local approx_y = 10
     local approx_x = 5
@@ -94,6 +90,12 @@ function love.update(dt)
 		player.y_velocity = 0
     player.y = player.ground
 	end
+
+  --update player collision
+  player.coll:setX(player.x)
+  player.coll:setY(player.y)
+  player.coll:setW(player.width)
+  player.coll:setH(player.height)
 end
 
 function love.draw()
@@ -107,7 +109,7 @@ function love.draw()
   love.graphics.print( "x:"..math.floor(player.x)..", y:"..math.floor(player.y), 0, 0)
   love.graphics.print("player.collision: "..collision_text, 0, 10)
   love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 20)
-  love.graphics.print("debuf something: "..(box.y - player.height + 1), 0, 30)
+  --love.graphics.print("debuf something: ", 0, 40)
 
   love.graphics.rectangle('fill', platform.x, platform.y, platform.width, platform.height)
   love.graphics.setColor(255, 0, 0)
