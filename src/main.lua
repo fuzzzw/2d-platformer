@@ -38,31 +38,45 @@ function love.load()
 	player.gravity = -1000
 
   player.collision = false
+  player.blocked_R = false
+  player.blocked_L = false
 end
 
 function love.update(dt)
   if check_collision(player.x, player.y, player.width, player.height,
                      box.x, box.y, box.width, box.height) then
     player.collision = true
-    local apox = 10
-    if player.y < (box.y - player.height + apox) and
-       player.y > (box.y - player.height - apox) then
+    local approx_y = 10
+    local approx_x = 5
+
+    if player.y < (box.y - player.height + approx_y) and
+       player.y > (box.y - player.height - approx_y) then
 
       player.y_velocity = 0
       player.y = box.y - player.height + 2
+      player.blocked_R = false
+      player.blocked_L = false
+    elseif player.x > (box.x - player.width - approx_x) and
+           player.x < (box.x - player.width + approx_x) then
+      player.blocked_R = true
+    elseif player.x > (box.x + box.width - approx_x) and
+           player.x < (box.x + box.width + approx_x) then
+      player.blocked_L = true
     end
   else
     if player.collision and not love.keyboard.isDown('space') then
       player.y_velocity = 1
     end
     player.collision = false
+    player.blocked_R = false
+    player.blocked_L = false
   end
 
 	if love.keyboard.isDown('right') then
-		if player.x < (love.graphics.getWidth() - player.width) then
+		if player.x < (love.graphics.getWidth() - player.width) and not player.blocked_R then
 			player.x = player.x + (player.speed * dt)
 		end
-	elseif love.keyboard.isDown('left') then
+	elseif love.keyboard.isDown('left') and not player.blocked_L then
 		if player.x > 0 then
 			player.x = player.x - (player.speed * dt)
 		end
@@ -86,7 +100,7 @@ function love.update(dt)
 end
 
 function love.draw()
-  collision_text = "false"
+  local collision_text = "false"
   if player.collision then
     collision_text = "true"
   end
@@ -94,7 +108,8 @@ function love.draw()
 
   love.graphics.print( "x:"..math.floor(player.x)..", y:"..math.floor(player.y), 0, 0)
   love.graphics.print("player.collision: "..collision_text, 0, 10)
-  love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 20)
+  love.graphics.print("box.x: "..box.x, 0, 20)
+  --love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 20)
 
   love.graphics.rectangle('fill', platform.x, platform.y, platform.width, platform.height)
   love.graphics.setColor(255, 0, 0)
