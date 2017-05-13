@@ -1,6 +1,7 @@
 require "collision"
 entity = {}
 box = {}
+box2 = {}
 platform = {}
 player = {}
 
@@ -11,6 +12,13 @@ function love.load()
   box.y = love.graphics.getHeight() / 2 - box.height
   box.coll = Collision:new(box.x,box.y,box.width,box.height)
   entity[#entity+1] = box
+
+  box2.width = 200
+  box2.height = 100
+  box2.x = love.graphics.getWidth() / 2 + 300
+  box2.y = love.graphics.getHeight() / 2 - box2.height
+  box2.coll = Collision:new(box2.x,box2.y,box2.width,box2.height)
+  entity[#entity+1] = box2
 
 	platform.width = love.graphics.getWidth()
 	platform.height = love.graphics.getHeight()
@@ -35,7 +43,6 @@ end
 
 function collision_evaluation(ent)
   if player.coll:check_collision(ent.coll) then
-    player.collision = true
     local approx_y = 10
 
     if player.coll:ground_collision(ent.coll, player.y_velocity, approx_y) then
@@ -43,12 +50,10 @@ function collision_evaluation(ent)
       player.y = ent.y - player.height + 1
     end
   else
-    if player.collision and
-       not love.keyboard.isDown('space') and
+    if not love.keyboard.isDown('space') and
        player.y_velocity == 0 then
       player.y_velocity = 1
     end
-    player.collision = false
   end
 end
 
@@ -127,6 +132,7 @@ function love.draw()
   love.graphics.rectangle('fill', platform.x, platform.y, platform.width, platform.height)
   love.graphics.setColor(255, 0, 0)
   love.graphics.rectangle('fill', box.x, box.y, box.width, box.height)
+  love.graphics.rectangle('fill', box2.x, box2.y, box2.width, box2.height)
   love.graphics.setColor(0, 0, 255)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
 end
