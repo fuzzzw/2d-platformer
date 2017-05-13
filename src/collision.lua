@@ -11,14 +11,46 @@ function Collision:new(x,y,w,h)  -- The constructor
 end
 
 function Collision:check_collision(c)
-  x1 = self.x    x2 = c:getX()
-  y1 = self.y    y2 = c:getY()
-  w1 = self.w    w2 = c:getW()
-  h1 = self.h    h2 = c:getH()
+  x1 = self.x    local x2 = c:getX()
+  y1 = self.y    local y2 = c:getY()
+  w1 = self.w    local w2 = c:getW()
+  h1 = self.h    local h2 = c:getH()
+
   return x1 < x2+w2 and
          x2 < x1+w1 and
          y1 < y2+h2 and
          y2 < y1+h1
+end
+
+function Collision:ground_collision(c, player_velocity_y, approx_y)
+  y1 = self.y    local y2 = c:getY()
+  h1 = self.h
+
+  return y1 < (y2 - h1 + approx_y) and
+         y1 > (y2 - h1 - approx_y) and
+         player_velocity_y > 0
+end
+
+function Collision:right_collision(c, approx_x)
+  x1 = self.x    local x2 = c:getX()
+  y1 = self.y    local y2 = c:getY()
+  w1 = self.w    local w2 = c:getW()
+  h1 = self.h
+
+  return x1 > (x2 - w1 - approx_x) and
+         x1 < (x2 - w1 + approx_x) and
+         y1 > y2 - h1 + 1
+end
+
+function Collision:left_collision(c, approx_x)
+  x1 = self.x    local x2 = c:getX()
+  y1 = self.y    local y2 = c:getY()
+  w1 = self.w    local w2 = c:getW()
+  h1 = self.h
+
+  return x1 > (x2 + w2 - approx_x) and
+         x1 < (x2 + w2 + approx_x) and
+         y1 > y2 - h1 + 1
 end
 
 function Collision:setX(x)

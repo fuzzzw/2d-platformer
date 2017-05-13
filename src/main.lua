@@ -1,4 +1,5 @@
 require "collision"
+entity = {}
 box = {}
 platform = {}
 player = {}
@@ -9,11 +10,14 @@ function love.load()
   box.x = love.graphics.getWidth() / 2 + 75
   box.y = love.graphics.getHeight() / 2 - box.height
   box.coll = Collision:new(box.x,box.y,box.width,box.height)
+  entity[#entity+1] = box
 
 	platform.width = love.graphics.getWidth()
 	platform.height = love.graphics.getHeight()
 	platform.x = 0
 	platform.y = platform.height / 2
+  platform.coll = Collision:new(platform.x,platform.y,platform.width,platform.height)
+  entity[#entity+1] = platform
 
   player.width = 32
   player.height = 32
@@ -25,34 +29,18 @@ function love.load()
 	player.jump_height = -400
 	player.gravity = -1000
   player.collision = false
-  player.blocked_R = false
-  player.blocked_L = false
   player.coll = Collision:new(player.x,player.y,player.width,player.height)
 
 end
 
-function love.update(dt)
-  if player.coll:check_collision(box.coll) then
+function collision_evaluation(ent)
+  if player.coll:check_collision(ent.coll) then
     player.collision = true
     local approx_y = 10
-    local approx_x = 5
 
-    if player.y < (box.y - player.height + approx_y) and
-       player.y > (box.y - player.height - approx_y) and
-       player.y_velocity > 0 then
-
+    if player.coll:ground_collision(ent.coll, player.y_velocity, approx_y) then
       player.y_velocity = 0
-      player.y = box.y - player.height + 1
-      player.blocked_R = false
-      player.blocked_L = false
-    elseif player.x > (box.x - player.width - approx_x) and
-           player.x < (box.x - player.width + approx_x) and
-           player.y > box.y - player.height + 1 then
-      player.blocked_R = true
-    elseif player.x > (box.x + box.width - approx_x) and
-           player.x < (box.x + box.width + approx_x) and
-           player.y > box.y - player.height + 1 then
-      player.blocked_L = true
+      player.y = ent.y - player.height + 1
     end
   else
     if player.collision and
@@ -61,18 +49,43 @@ function love.update(dt)
       player.y_velocity = 1
     end
     player.collision = false
-    player.blocked_R = false
-    player.blocked_L = false
+  end
+end
+
+function love.update(dt)
+
+  local approx_x = 5
+  -- collision checks
+  for _, ent in ipairs(entity) do
+    collision_evaluation(ent)
   end
 
 	if love.keyboard.isDown('right') then
-		if player.x < (love.graphics.getWidth() - player.width) and not player.blocked_R then
-			player.x = player.x + (player.speed * dt)
+		if player.x < (love.graphics.getWidth() - player.width) then
+      local blocked = false
+      for _, ent in ipairs(entity) do
+        if player.coll:right_collision(ent.coll, approx_x) then
+          blocked = true
+          break
+        end
+      end
+      if not blocked then
+        player.x = player.x + (player.speed * dt)
+      end
 		end
-	elseif love.keyboard.isDown('left') and not player.blocked_L then
-		if player.x > 0 then
-			player.x = player.x - (player.speed * dt)
-		end
+	elseif love.keyboard.isDown('left') then
+    local blocked = false
+    for _, ent in ipairs(entity) do
+      if player.coll:left_collision(ent.coll, approx_x) then
+        blocked = true
+        break
+      end
+    end
+    if not blocked then
+  		if player.x > 0 then
+  			player.x = player.x - (player.speed * dt)
+  		end
+    end
 	end
 
 	if love.keyboard.isDown('space') then
