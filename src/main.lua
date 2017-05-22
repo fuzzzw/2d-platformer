@@ -16,7 +16,7 @@ function love.load()
 
   box2.width = 200
   box2.height = 100
-  box2.x = love.graphics.getWidth() / 2 + 300
+  box2.x = love.graphics.getWidth() / 2 + 350
   box2.y = love.graphics.getHeight() / 2 - box2.height
   box2.coll = Collision:new(box2.x,box2.y,box2.width,box2.height)
   entity[#entity+1] = box2
@@ -29,7 +29,7 @@ function love.load()
   entity[#entity+1] = box3
 
 	platform.width = love.graphics.getWidth()
-	platform.height = love.graphics.getHeight()
+	platform.height = love.graphics.getHeight() * 1.0
 	platform.x = 0
 	platform.y = platform.height / 2
   platform.coll = Collision:new(platform.x,platform.y,platform.width,platform.height)
@@ -40,11 +40,10 @@ function love.load()
 	player.x = love.graphics.getWidth() / 2
 	player.y = love.graphics.getHeight() / 2 - player.height
 	player.speed = 200
-	player.ground = player.y
+	player.ground = platform.y
 	player.y_velocity = 0
 	player.jump_height = -400
 	player.gravity = -1000
-  player.collision = false
   player.coll = Collision:new(player.x,player.y,player.width,player.height)
 
 end
@@ -125,16 +124,12 @@ function love.update(dt)
 end
 
 function love.draw()
-  local collision_text = "false"
-  if player.collision then
-    collision_text = "true"
-  end
 	love.graphics.setColor(255, 255, 255)
 
   --debug
   love.graphics.print( "x:"..math.floor(player.x)..", y:"..math.floor(player.y), 0, 0)
-  love.graphics.print("player.collision: "..collision_text, 0, 10)
-  love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 20)
+  --love.graphics.print("player.collision: "..collision_text, 0, 10)
+  love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 15)
   --love.graphics.print("debuf something: ", 0, 40)
 
   love.graphics.rectangle('fill', platform.x, platform.y, platform.width, platform.height)
