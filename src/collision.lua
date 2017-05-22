@@ -39,7 +39,7 @@ function Collision:right_collision(c, approx_x)
 
   return x1 > (x2 - w1 - approx_x) and
          x1 < (x2 - w1 + approx_x) and
-         y1 > y2 - h1 + 1
+         y1 > y2 - h1 + 2
 end
 
 function Collision:left_collision(c, approx_x)
@@ -50,7 +50,7 @@ function Collision:left_collision(c, approx_x)
 
   return x1 > (x2 + w2 - approx_x) and
          x1 < (x2 + w2 + approx_x) and
-         y1 > y2 - h1 + 1
+         y1 > y2 - h1 + 2
 end
 
 function Collision:setX(x)

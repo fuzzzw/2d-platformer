@@ -2,6 +2,7 @@ require "collision"
 entity = {}
 box = {}
 box2 = {}
+box3 = {}
 platform = {}
 player = {}
 
@@ -19,6 +20,13 @@ function love.load()
   box2.y = love.graphics.getHeight() / 2 - box2.height
   box2.coll = Collision:new(box2.x,box2.y,box2.width,box2.height)
   entity[#entity+1] = box2
+
+  box3.width = 100
+  box3.height = 50
+  box3.x = love.graphics.getWidth() / 2 + 175
+  box3.y = love.graphics.getHeight() / 2 - box3.height
+  box3.coll = Collision:new(box3.x,box3.y,box3.width,box3.height)
+  entity[#entity+1] = box3
 
 	platform.width = love.graphics.getWidth()
 	platform.height = love.graphics.getHeight()
@@ -133,6 +141,8 @@ function love.draw()
   love.graphics.setColor(255, 0, 0)
   love.graphics.rectangle('fill', box.x, box.y, box.width, box.height)
   love.graphics.rectangle('fill', box2.x, box2.y, box2.width, box2.height)
+  love.graphics.setColor(255, 255, 0)
+  love.graphics.rectangle('fill', box3.x, box3.y, box3.width, box3.height)
   love.graphics.setColor(0, 0, 255)
   love.graphics.rectangle('fill', player.x, player.y, player.width, player.height)
 end
