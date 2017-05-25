@@ -11,10 +11,10 @@ function Collision:new(x,y,w,h)  -- The constructor
 end
 
 function Collision:check_collision(c)
-  x1 = self.x    local x2 = c:getX()
-  y1 = self.y    local y2 = c:getY()
-  w1 = self.w    local w2 = c:getW()
-  h1 = self.h    local h2 = c:getH()
+  local x1 = self.x    local x2 = c:getX()
+  local y1 = self.y    local y2 = c:getY()
+  local w1 = self.w    local w2 = c:getW()
+  local h1 = self.h    local h2 = c:getH()
 
   return x1 < x2+w2 and
          x2 < x1+w1 and
@@ -23,8 +23,8 @@ function Collision:check_collision(c)
 end
 
 function Collision:ground_collision(c, player_velocity_y, approx_y)
-  y1 = self.y    local y2 = c:getY()
-  h1 = self.h
+  local y1 = self.y    local y2 = c:getY()
+  local h1 = self.h
 
   return y1 < (y2 - h1 + approx_y) and
          y1 > (y2 - h1 - approx_y) and
@@ -32,10 +32,10 @@ function Collision:ground_collision(c, player_velocity_y, approx_y)
 end
 
 function Collision:right_collision(c, approx_x)
-  x1 = self.x    local x2 = c:getX()
-  y1 = self.y    local y2 = c:getY()
-  w1 = self.w    local w2 = c:getW()
-  h1 = self.h    local h2 = c:getH()
+  local x1 = self.x    local x2 = c:getX()
+  local y1 = self.y    local y2 = c:getY()
+  local w1 = self.w    local w2 = c:getW()
+  local h1 = self.h    local h2 = c:getH()
 
   return x1 > (x2 - w1 - approx_x) and
          x1 < (x2 - w1 + approx_x) and
@@ -44,10 +44,10 @@ function Collision:right_collision(c, approx_x)
 end
 
 function Collision:left_collision(c, approx_x)
-  x1 = self.x    local x2 = c:getX()
-  y1 = self.y    local y2 = c:getY()
-  w1 = self.w    local w2 = c:getW()
-  h1 = self.h    local h2 = c:getH()
+  local x1 = self.x    local x2 = c:getX()
+  local y1 = self.y    local y2 = c:getY()
+  local w1 = self.w    local w2 = c:getW()
+  local h1 = self.h    local h2 = c:getH()
 
   return x1 > (x2 + w2 - approx_x) and
          x1 < (x2 + w2 + approx_x) and

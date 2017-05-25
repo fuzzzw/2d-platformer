@@ -29,11 +29,12 @@ function loadEntities()
   entity[#entity+1] = box3
 
   platform = {}
+  local scale = 1.0
   platform.coll = Collision:new(
     0,
-    (love.graphics.getHeight() * 1.0) / 2,
+    (love.graphics.getHeight() * scale) / 2,
     love.graphics.getWidth(),
-    love.graphics.getHeight() * 1.0
+    love.graphics.getHeight() * scale
   )
   entity[#entity+1] = platform
 
