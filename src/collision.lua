@@ -55,6 +55,13 @@ function Collision:left_collision(c, approx_x)
          y1 < y2 + h2 - 2
 end
 
+function Collision:setAll(x,y,w,h)
+  self.x = x
+  self.y = y
+  self.w = w
+  self.h = h
+end
+
 function Collision:setX(x)
   self.x = x
 end
