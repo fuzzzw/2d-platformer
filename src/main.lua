@@ -1,10 +1,11 @@
 require "collision"
 require "entities"
+require "level"
 require "drawIt"
 
 function common_collision(ent)
   if player.coll:check_collision(ent.coll) then
-    local approx_y = 10
+    local approx_y = 15
 
     if player.coll:ground_collision(ent.coll, player.y_velocity, approx_y) then
       player.y_velocity = 0
@@ -19,6 +20,7 @@ function common_collision(ent)
 end
 
 function love.load()
+  loadLevel('maps/level_0.png')
   loadEntities()
 end
 
@@ -79,17 +81,28 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.setColor(255, 255, 255)
+  -- draw primitives
+  for _, v in ipairs(entity) do
+    if v.primitive then
+      drawIt(v.coll,255,0,0)
+    end
+  end
+
+  drawIt(platform.coll, 255, 255, 255)
+  drawIt(player.coll, 0, 0, 255)
+
+  -- custom entities
+  --drawIt(boxt.coll,255,0,255)
+  --drawIt(box.coll,255,0,0)
+  --drawIt(box2.coll, 255,0,0)
+  --drawIt(box3.coll, 255, 255, 0)
+  --drawIt(box4.coll, 255, 255, 0)
+
+  love.graphics.setColor(255, 255, 255)
 
   --debug
   love.graphics.print( "x:"..math.floor(player.x)..", y:"..math.floor(player.y), 0, 0)
-  --love.graphics.print("player.collision: "..collision_text, 0, 10)
   love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 15)
-  --love.graphics.print("debuf something: ", 0, 40)
-
-  drawIt(platform.coll, 255, 255, 255)
-  drawIt(box.coll,255,0,0)
-  drawIt(box2.coll, 255,0,0)
-  drawIt(box3.coll, 255, 255, 0)
-  drawIt(player.coll, 0, 0, 255)
+  love.graphics.print("screen width: "..love.graphics.getWidth()..
+                      ", screen height: "..love.graphics.getHeight(), 0, 30)
 end

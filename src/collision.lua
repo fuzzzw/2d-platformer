@@ -1,10 +1,10 @@
 Collision = {}
 function Collision:new(x,y,w,h)  -- The constructor
   local object = {
-    x = x or 0,
-    y = y or 0,
-    w = w or 0,
-    h = h or 0
+    x = x or 0, -- x posistion
+    y = y or 0, -- y posistion
+    w = w or 0, -- width
+    h = h or 0  -- height
   }
   setmetatable(object, { __index = Collision })  -- Inheritance
   return object
@@ -56,10 +56,10 @@ function Collision:left_collision(c, approx_x)
 end
 
 function Collision:setAll(x,y,w,h)
-  self.x = x
-  self.y = y
-  self.w = w
-  self.h = h
+  self.x = x or self.x
+  self.y = y or self.y
+  self.w = w or self.w
+  self.h = h or self.h
 end
 
 function Collision:setX(x)
