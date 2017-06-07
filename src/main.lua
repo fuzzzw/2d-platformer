@@ -82,11 +82,7 @@ end
 
 function love.draw()
   -- draw primitives
-  for _, v in ipairs(entity) do
-    if v.primitive then
-      drawIt(v.coll,255,0,0)
-    end
-  end
+  drawIt_primitives(entity)
 
   drawIt(platform.coll, 255, 255, 255)
   drawIt(player.coll, 0, 0, 255)
@@ -101,8 +97,8 @@ function love.draw()
   love.graphics.setColor(255, 255, 255)
 
   --debug
-  love.graphics.print( "x:"..math.floor(player.x)..", y:"..math.floor(player.y), 0, 0)
-  love.graphics.print("player.y_velocity: "..math.floor(player.y_velocity), 0, 15)
-  love.graphics.print("screen width: "..love.graphics.getWidth()..
-                      ", screen height: "..love.graphics.getHeight(), 0, 30)
+  drawIt_debug("x:"..math.floor(player.x)..", y:"..math.floor(player.y),0)
+  drawIt_debug("player.y_velocity: "..math.floor(player.y_velocity), 1)
+  drawIt_debug("screen width: "..love.graphics.getWidth()..
+               ", screen height: "..love.graphics.getHeight(),2)
 end
