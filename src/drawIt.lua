@@ -1,3 +1,4 @@
+-- ent = entity
 function drawIt(ent, r, g, b)
   love.graphics.setColor(r, g, b)
   love.graphics.rectangle('fill', ent:getX(), ent:getY(), ent:getW(), ent:getH())
@@ -8,10 +9,10 @@ function drawIt_debug(string, debug_pos)
   love.graphics.print(string,0,debug_pos*15)
 end
 
-function drawIt_primitives(entity)
-  for _, v in ipairs(entity) do
+function drawIt_primitives(entities)
+  for _, v in ipairs(entities) do
     if v.primitive then
-      drawIt(v.coll,255,0,0)
+      drawIt(v.coll,v.color.red,v.color.green,v.color.blue)
     end
   end
 end

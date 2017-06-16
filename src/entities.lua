@@ -62,12 +62,17 @@ function loadEntities()
   player = {}
   player.width = 32
   player.height = 32
-  player.x = love.graphics.getWidth() / 2 - 375
-  player.y = love.graphics.getHeight() / 2 - player.height - 150
+  player.x = 10
+  player.y = 300
   player.speed = 200
   player.ground = platform.coll:getY()
   player.y_velocity = 0
   player.jump_height = -400
   player.gravity = -1000
-  player.coll = Collision:new(player.x,player.y,player.width,player.height)
+  player.coll = Collision:new(
+    player.x,
+    player.y,
+    player.width,
+    player.height
+  )
 end

@@ -13,6 +13,11 @@ function loadLevel(name)
           10
         )
         primitives.primitive = true
+        primitives.color = {
+          red   = 255,
+          green = 0,
+          blue  = 0
+        }
         entity[#entity+1] = primitives
       end
     end

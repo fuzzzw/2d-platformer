@@ -77,7 +77,12 @@ function love.update(dt)
 	end
 
   --update player collision
-  player.coll:setAll(player.x, player.y, player.width, player.height)
+  player.coll:setAll(
+    player.x,
+    player.y,
+    player.width,
+    player.height
+  )
 end
 
 function love.draw()
