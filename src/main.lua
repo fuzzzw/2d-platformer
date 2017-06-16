@@ -1,15 +1,16 @@
-require "collision"
-require "entities"
-require "level"
-require "drawIt"
+local collision = require "collision"
+local player = require "player"
+local draw = require "drawIt"
+local level = require "level"
+local map
 
-function common_collision(ent)
-  if player.coll:check_collision(ent.coll) then
+local function common_collision(entity)
+  if player.coll:check_collision(entity.coll) then
     local approx_y = 15
 
-    if player.coll:ground_collision(ent.coll, player.y_velocity, approx_y) then
+    if player.coll:ground_collision(entity.coll, player.y_velocity, approx_y) then
       player.y_velocity = 0
-      player.y = ent.coll:getY() - player.height + 1
+      player.y = entity.coll:getY() - player.height + 1
     end
   else
     if not love.keyboard.isDown('space') and
@@ -20,23 +21,23 @@ function common_collision(ent)
 end
 
 function love.load()
-  loadLevel('maps/level_0.png')
-  loadEntities()
+  map = level.load('maps/level_0.png')
+  player = player.load()
 end
 
 function love.update(dt)
 
   local approx_x = 5
   -- collision checks
-  for _, ent in ipairs(entity) do
-    common_collision(ent)
+  for _, entity in ipairs(map) do
+    common_collision(entity)
   end
 
 	if love.keyboard.isDown('right') then
 		if player.x < (love.graphics.getWidth() - player.width) then
       local blocked = false
-      for _, ent in ipairs(entity) do
-        if player.coll:right_collision(ent.coll, approx_x) then
+      for _, entity in ipairs(map) do
+        if player.coll:right_collision(entity.coll, approx_x) then
           blocked = true
           break
         end
@@ -47,8 +48,8 @@ function love.update(dt)
 		end
 	elseif love.keyboard.isDown('left') then
     local blocked = false
-    for _, ent in ipairs(entity) do
-      if player.coll:left_collision(ent.coll, approx_x) then
+    for _, entity in ipairs(map) do
+      if player.coll:left_collision(entity.coll, approx_x) then
         blocked = true
         break
       end
@@ -86,24 +87,12 @@ function love.update(dt)
 end
 
 function love.draw()
-  -- draw primitives
-  drawIt_primitives(entity)
-
-  drawIt(platform.coll, 255, 255, 255)
-  drawIt(player.coll, 0, 0, 255)
-
-  -- custom entities
-  --drawIt(boxt.coll,255,0,255)
-  --drawIt(box.coll,255,0,0)
-  --drawIt(box2.coll, 255,0,0)
-  --drawIt(box3.coll, 255, 255, 0)
-  --drawIt(box4.coll, 255, 255, 0)
-
-  love.graphics.setColor(255, 255, 255)
+  draw.entity(player)
+  draw.entities(map)
 
   --debug
-  drawIt_debug("x:"..math.floor(player.x)..", y:"..math.floor(player.y),0)
-  drawIt_debug("player.y_velocity: "..math.floor(player.y_velocity), 1)
-  drawIt_debug("screen width: "..love.graphics.getWidth()..
-               ", screen height: "..love.graphics.getHeight(),2)
+  draw.debug("x:"..math.floor(player.x)..", y:"..math.floor(player.y),0)
+  draw.debug("player.y_velocity: "..math.floor(player.y_velocity), 1)
+  draw.debug("screen width: "..love.graphics.getWidth()..
+             ", screen height: "..love.graphics.getHeight(),2)
 end

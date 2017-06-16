@@ -1,16 +1,17 @@
-Collision = {}
-function Collision:new(x,y,w,h)  -- The constructor
+local collision = {}
+
+function collision:new(x,y,w,h)  -- The constructor
   local object = {
     x = x or 0, -- x posistion
     y = y or 0, -- y posistion
     w = w or 0, -- width
     h = h or 0  -- height
   }
-  setmetatable(object, { __index = Collision })  -- Inheritance
+  setmetatable(object, { __index = collision })  -- Inheritance
   return object
 end
 
-function Collision:check_collision(c)
+function collision:check_collision(c)
   local x1 = self.x    local x2 = c:getX()
   local y1 = self.y    local y2 = c:getY()
   local w1 = self.w    local w2 = c:getW()
@@ -22,7 +23,7 @@ function Collision:check_collision(c)
          y2 < y1+h1
 end
 
-function Collision:ground_collision(c, player_velocity_y, approx_y)
+function collision:ground_collision(c, player_velocity_y, approx_y)
   local y1 = self.y    local y2 = c:getY()
   local h1 = self.h
 
@@ -31,7 +32,7 @@ function Collision:ground_collision(c, player_velocity_y, approx_y)
          player_velocity_y > 0
 end
 
-function Collision:right_collision(c, approx_x)
+function collision:right_collision(c, approx_x)
   local x1 = self.x    local x2 = c:getX()
   local y1 = self.y    local y2 = c:getY()
   local w1 = self.w    local w2 = c:getW()
@@ -43,7 +44,7 @@ function Collision:right_collision(c, approx_x)
          y1 < y2 + h2 - 2
 end
 
-function Collision:left_collision(c, approx_x)
+function collision:left_collision(c, approx_x)
   local x1 = self.x    local x2 = c:getX()
   local y1 = self.y    local y2 = c:getY()
   local w1 = self.w    local w2 = c:getW()
@@ -55,41 +56,43 @@ function Collision:left_collision(c, approx_x)
          y1 < y2 + h2 - 2
 end
 
-function Collision:setAll(x,y,w,h)
+function collision:setAll(x,y,w,h)
   self.x = x or self.x
   self.y = y or self.y
   self.w = w or self.w
   self.h = h or self.h
 end
 
-function Collision:setX(x)
+function collision:setX(x)
   self.x = x
 end
 
-function Collision:setY(y)
+function collision:setY(y)
   self.y = y
 end
 
-function Collision:setW(w)
+function collision:setW(w)
   self.w = w
 end
 
-function Collision:setH(h)
+function collision:setH(h)
   self.h = h
 end
 
-function Collision:getX()
+function collision:getX()
   return self.x
 end
 
-function Collision:getY()
+function collision:getY()
   return self.y
 end
 
-function Collision:getW()
+function collision:getW()
   return self.w
 end
 
-function Collision:getH()
+function collision:getH()
   return self.h
 end
+
+return collision
