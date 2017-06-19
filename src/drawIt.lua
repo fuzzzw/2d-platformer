@@ -12,7 +12,7 @@ local function draw(entity, color)
 end
 
 function drawIt.entity(entity)
-  draw(entity,entity.color)
+  draw(entity:getCollision(),entity:getColor())
 end
 
 function drawIt.entities(entities)

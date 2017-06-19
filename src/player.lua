@@ -1,5 +1,4 @@
 local collision = require "collision"
-local color = require "color"
 local player = collision:extend()
 
 function player:new(x,y,w,h,speed,y_velocity,jump_height,gravity)  -- The constructor
@@ -9,7 +8,6 @@ function player:new(x,y,w,h,speed,y_velocity,jump_height,gravity)  -- The constr
   self.jump_height = jump_height or -400
   self.gravity     = gravity or -1000
   self.ground      = love.graphics.getHeight() - h
-  self.color       = color(0,0,255)
 end
 
 function player:setGround(ground)
