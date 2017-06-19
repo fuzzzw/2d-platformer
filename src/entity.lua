@@ -4,8 +4,8 @@ local color = require "color"
 local entity = object:extend()
 
 function entity:new(collision,color)
-  self.collision = collision or collision()
-  self.color     = color or color()
+  self.collision = collision or nil
+  self.color     = color or nil
 end
 
 function entity:setCollision(collision)

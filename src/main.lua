@@ -9,7 +9,7 @@ local function common_collision(entity)
 
     if player:ground_collision(entity.collision, player:getY_velocity(), approx_y) then
       player:setY_velocity(0)
-      player:setY(entity.collision:getY() - player:getH() + 1)
+      player:setY(entity.collision:getY() - player:getHeight() + 1)
     end
   else
     if not love.keyboard.isDown('space') and
@@ -33,7 +33,7 @@ function love.update(dt)
   end
 
 	if love.keyboard.isDown('right') then
-		if player:getX() < (love.graphics.getWidth() - player:getW()) then
+		if player:getX() < (love.graphics.getWidth() - player:getWidth()) then
       local blocked = false
       for _, entity in ipairs(map) do
         if player:right_collision(entity.collision, approx_x) then

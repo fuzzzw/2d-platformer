@@ -6,8 +6,8 @@ local function draw(entity, color)
     'fill',
     entity:getX(),
     entity:getY(),
-    entity:getW(),
-    entity:getH()
+    entity:getWidth(),
+    entity:getHeight()
   )
 end
 
@@ -17,7 +17,7 @@ end
 
 function drawIt.entities(entities)
   for _, entity in ipairs(entities) do
-    draw(entity.collision,entity.color)
+    draw(entity:getCollision(),entity:getColor())
   end
 end
 

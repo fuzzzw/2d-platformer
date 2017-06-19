@@ -11,8 +11,8 @@ end
 function collision:check_collision(c)
   local x1 = self.x    local x2 = c:getX()
   local y1 = self.y    local y2 = c:getY()
-  local w1 = self.w    local w2 = c:getW()
-  local h1 = self.h    local h2 = c:getH()
+  local w1 = self.w    local w2 = c:getWidth()
+  local h1 = self.h    local h2 = c:getHeight()
 
   return x1 < x2+w2 and
          x2 < x1+w1 and
@@ -32,8 +32,8 @@ end
 function collision:right_collision(c, approx_x)
   local x1 = self.x    local x2 = c:getX()
   local y1 = self.y    local y2 = c:getY()
-  local w1 = self.w    local w2 = c:getW()
-  local h1 = self.h    local h2 = c:getH()
+  local w1 = self.w    local w2 = c:getWidth()
+  local h1 = self.h    local h2 = c:getHeight()
 
   return x1 > (x2 - w1 - approx_x) and
          x1 < (x2 - w1 + approx_x) and
@@ -44,8 +44,8 @@ end
 function collision:left_collision(c, approx_x)
   local x1 = self.x    local x2 = c:getX()
   local y1 = self.y    local y2 = c:getY()
-  local w1 = self.w    local w2 = c:getW()
-  local h1 = self.h    local h2 = c:getH()
+  local w1 = self.w    local w2 = c:getWidth()
+  local h1 = self.h    local h2 = c:getHeight()
 
   return x1 > (x2 + w2 - approx_x) and
          x1 < (x2 + w2 + approx_x) and
@@ -68,11 +68,11 @@ function collision:setY(y)
   self.y = y
 end
 
-function collision:setW(w)
+function collision:setWidth(w)
   self.w = w
 end
 
-function collision:setH(h)
+function collision:setHeight(h)
   self.h = h
 end
 
@@ -84,11 +84,11 @@ function collision:getY()
   return self.y
 end
 
-function collision:getW()
+function collision:getWidth()
   return self.w
 end
 
-function collision:getH()
+function collision:getHeight()
   return self.h
 end
 
