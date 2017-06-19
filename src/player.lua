@@ -1,38 +1,22 @@
 local collision = require "collision"
-local player = {}
+local player = collision:extend()
 
 function player:new(x,y,w,h,speed,y_velocity,jump_height,gravity)  -- The constructor
-  local object = {
-    speed       = speed or 200,
-    y_velocity  = y_velocity or 0,
-    jump_height = jump_height or -400,
-    gravity     = gravity or -1000,
-    ground      = love.graphics.getHeight() - h,
-    coll = collision:new(
-      x or 0,
-      y or 0,
-      w or 0,
-      h or 0
-    ),
-    color = {
-      red   = 0,
-      green = 0,
-      blue  = 255
-    }
+  player.super.new(self,x,y,w,h)
+  self.speed       = speed or 200
+  self.y_velocity  = y_velocity or 0
+  self.jump_height = jump_height or -400
+  self.gravity     = gravity or -1000
+  self.ground      = love.graphics.getHeight() - h
+  self.color = {
+    red = 0,
+    green = 0,
+    blue = 255
   }
-  setmetatable(object, { __index = player })  -- Inheritance
-  return object
-end
-
-function player:setAll(speed,y_velocity,jump_height,gravity)
-  self.speed       = speed or self.speed
-  self.y_velocity  = y_velocity or self.y_velocity
-  self.jump_height = jump_height or self.jump_height
-  self.gravity     = gravity or self.gravity
 end
 
 function player:setGround(ground)
-  self.x = ground
+  self.ground = ground
 end
 
 function player:setGravity(speed)

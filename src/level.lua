@@ -10,7 +10,7 @@ function level.load(name)
       local pixel = image:getPixel( x - 1, y - 1 )
       if pixel ~= 255 then
         local primitive = {}
-        primitive.coll = collision:new(
+        primitive.coll = collision(
           (x*10) - 10,
           (y*10) - 10,
           10,

@@ -1,14 +1,11 @@
-local collision = {}
+local object = require "classic"
+local collision = object:extend()
 
 function collision:new(x,y,w,h)  -- The constructor
-  local object = {
-    x = x or 0, -- x posistion
-    y = y or 0, -- y posistion
-    w = w or 0, -- width
-    h = h or 0  -- height
-  }
-  setmetatable(object, { __index = collision })  -- Inheritance
-  return object
+  self.x = x or 0 -- x posistion
+  self.y = y or 0 -- y posistion
+  self.w = w or 0 -- width
+  self.h = h or 0 -- height
 end
 
 function collision:check_collision(c)

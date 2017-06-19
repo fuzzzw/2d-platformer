@@ -12,11 +12,7 @@ local function draw(entity, r, g, b)
 end
 
 function drawIt.entity(entity)
-  draw(
-    entity.coll,
-    entity.color.red,
-    entity.color.green,
-    entity.color.blue)
+  draw(entity,entity.color.red,entity.color.green,entity.color.blue)
 end
 
 function drawIt.entities(entities)
