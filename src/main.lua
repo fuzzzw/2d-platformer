@@ -1,28 +1,27 @@
-local collision = require "collision"
-local player = require "player"
+local p = require "player"
 local draw = require "drawIt"
 local level = require "level"
 local map
 
 local function common_collision(entity)
-  if player.coll:check_collision(entity.coll) then
+  if p.coll:check_collision(entity.coll) then
     local approx_y = 15
 
-    if player.coll:ground_collision(entity.coll, player.y_velocity, approx_y) then
-      player.y_velocity = 0
-      player.y = entity.coll:getY() - player.height + 1
+    if p.coll:ground_collision(entity.coll, p:getY_velocity(), approx_y) then
+      p:setY_velocity(0)
+      p.coll:setY(entity.coll:getY() - p.coll:getH() + 1)
     end
   else
     if not love.keyboard.isDown('space') and
-    player.y_velocity == 0 then
-      player.y_velocity = 1
+    p:getY_velocity() == 0 then
+      p:setY_velocity(1)
     end
   end
 end
 
 function love.load()
   map = level.load('maps/level_0.png')
-  player = player.load()
+  p = p:new(10,300,32,32)
 end
 
 function love.update(dt)
@@ -34,65 +33,57 @@ function love.update(dt)
   end
 
 	if love.keyboard.isDown('right') then
-		if player.x < (love.graphics.getWidth() - player.width) then
+		if p.coll:getX() < (love.graphics.getWidth() - p.coll:getW()) then
       local blocked = false
       for _, entity in ipairs(map) do
-        if player.coll:right_collision(entity.coll, approx_x) then
+        if p.coll:right_collision(entity.coll, approx_x) then
           blocked = true
           break
         end
       end
       if not blocked then
-        player.x = player.x + (player.speed * dt)
+        p.coll:setX(p.coll:getX() + (p:getSpeed() * dt))
       end
 		end
 	elseif love.keyboard.isDown('left') then
     local blocked = false
     for _, entity in ipairs(map) do
-      if player.coll:left_collision(entity.coll, approx_x) then
+      if p.coll:left_collision(entity.coll, approx_x) then
         blocked = true
         break
       end
     end
     if not blocked then
-  		if player.x > 0 then
-  			player.x = player.x - (player.speed * dt)
+  		if p.coll:getX() > 0 then
+  			p.coll:setX(p.coll:getX() - (p:getSpeed() * dt))
   		end
     end
 	end
 
 	if love.keyboard.isDown('space') then
-		if player.y_velocity == 0 then
-			player.y_velocity = player.jump_height
+		if p:getY_velocity() == 0 then
+			p:setY_velocity(p:getJump_height())
 		end
 	end
 
-	if player.y_velocity ~= 0 then
-		player.y = player.y + player.y_velocity * dt
-		player.y_velocity = player.y_velocity - player.gravity * dt
+	if p:getY_velocity() ~= 0 then
+		p.coll:setY(p.coll:getY() + p:getY_velocity() * dt)
+		p:setY_velocity(p:getY_velocity() - p:getGravity() * dt)
 	end
 
-	if player.y > player.ground then
-		player.y_velocity = 0
-    player.y = player.ground
+	if p.coll:getY() > p:getGround() then
+		p:setY_velocity(0)
+    p.coll:setY(p:getGround())
 	end
-
-  --update player collision
-  player.coll:setAll(
-    player.x,
-    player.y,
-    player.width,
-    player.height
-  )
 end
 
 function love.draw()
-  draw.entity(player)
+  draw.entity(p)
   draw.entities(map)
 
   --debug
-  draw.debug("x:"..math.floor(player.x)..", y:"..math.floor(player.y),0)
-  draw.debug("player.y_velocity: "..math.floor(player.y_velocity), 1)
+  draw.debug("x:"..math.floor(p.coll:getX())..", y:"..math.floor(p.coll:getY()),0)
+  draw.debug("p:getY_velocity(): "..math.floor(p:getY_velocity()), 1)
   draw.debug("screen width: "..love.graphics.getWidth()..
              ", screen height: "..love.graphics.getHeight(),2)
 end
