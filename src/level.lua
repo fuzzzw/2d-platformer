@@ -1,4 +1,5 @@
 local collision = require "collision"
+local color = require "color"
 local level = {}
 
 function level.load(name)
@@ -9,17 +10,14 @@ function level.load(name)
       -- build entities from pixel posistion
       local pixel = image:getPixel( x - 1, y - 1 )
       if pixel ~= 255 then
-        local primitive = {}
-        primitive.coll = collision(
-          (x*10) - 10,
-          (y*10) - 10,
-          10,
-          10
-        )
-        primitive.color = {
-          red   = 255,
-          green = 0,
-          blue  = 0
+        local primitive = {
+          collision = collision(
+            (x*10) - 10,
+            (y*10) - 10,
+            10,
+            10
+          ),
+          color = color(255,0,0)
         }
         res[#res+1] = primitive
       end

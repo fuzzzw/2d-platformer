@@ -1,7 +1,7 @@
 local drawIt = {}
 
-local function draw(entity, r, g, b)
-  love.graphics.setColor(r, g, b)
+local function draw(entity, color)
+  love.graphics.setColor(color:getR(), color:getG(), color:getB())
   love.graphics.rectangle(
     'fill',
     entity:getX(),
@@ -12,12 +12,12 @@ local function draw(entity, r, g, b)
 end
 
 function drawIt.entity(entity)
-  draw(entity,entity.color.red,entity.color.green,entity.color.blue)
+  draw(entity,entity.color)
 end
 
 function drawIt.entities(entities)
-  for _, v in ipairs(entities) do
-    draw(v.coll,v.color.red,v.color.green,v.color.blue)
+  for _, entity in ipairs(entities) do
+    draw(entity.collision,entity.color)
   end
 end
 
