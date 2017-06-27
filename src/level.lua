@@ -1,9 +1,10 @@
 local collision = require "collision"
 local color = require "color"
 local entity = require "entity"
+local maps_dir = love.filesystem.getDirectoryItems("maps")
 local level = {}
 
-function level.load(name)
+local function load(name)
   local image = love.image.newImageData(name)
   local entities = {}
   for x = 1, image:getWidth() do
@@ -26,6 +27,34 @@ function level.load(name)
   end
 
   return entities
+end
+
+function level.get()
+  local maps = {}
+  local pattern = "_(%l)(%d-)_(%l)(%d-).png"
+  for _, v in ipairs(maps_dir) do
+    local xs, xd, ys, yd = v:match(pattern)
+
+    -- convert to numbers
+    xd = xd + 0
+    yd = yd + 0
+
+    if xs == "n" then
+      xd = xd * -1
+    end
+
+    if ys == "n" then
+      yd = yd * -1
+    end
+
+    if maps[xd] == nil then
+      maps[xd] = {}
+    end
+
+    maps[xd][yd] = load("maps/"..v)
+  end
+
+  return maps
 end
 
 return level

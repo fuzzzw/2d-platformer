@@ -4,10 +4,12 @@ local color = require "color"
 local player = require "player"
 local level = require "level"
 local draw = require "drawIt"
-local map
+local map, maps
 
 function love.load()
-  map = level.load('maps/level_0.png')
+  maps = level.get()
+  map = maps[0][0]
+
   player = entity(
     player(10,300,32,32),
     color(0,0,255)
@@ -15,7 +17,9 @@ function love.load()
 end
 
 function love.update(dt)
-  controls.update(player,map,5,15,dt)
+  local approx_x = 5
+  local approx_y = 15
+  controls.update(player,map,approx_x,approx_y,dt)
 end
 
 function love.draw()
