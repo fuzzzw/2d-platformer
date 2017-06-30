@@ -5,6 +5,9 @@ local function common_collision(player,entity,approx_y)
     if player:ground_collision(entity, player:getY_velocity(), approx_y) then
       player:setY_velocity(0)
       player:setY(entity:getY() - player:getHeight() + 1)
+    elseif player:ceiling_collision(entity, player:getY_velocity(), approx_y) then
+      player:setY_velocity(2)
+      player:setY(entity:getY() + entity:getHeight())
     end
   else
     if not love.keyboard.isDown('space') and

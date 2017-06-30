@@ -18,7 +18,7 @@ end
 
 function love.update(dt)
   local approx_x = 5
-  local approx_y = 15
+  local approx_y = 10
   controls.update(player,map,approx_x,approx_y,dt)
 end
 

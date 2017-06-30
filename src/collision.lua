@@ -29,6 +29,15 @@ function collision:ground_collision(c, player_velocity_y, approx_y)
          player_velocity_y > 0
 end
 
+function collision:ceiling_collision(c, player_velocity_y, approx_y)
+  local y1 = self.y    local y2 = c:getY()
+                       local h2 = c:getHeight()
+
+  return y1 < (y2 - h2 + approx_y) and
+         y1 > (y2 - h2 - approx_y) and
+         player_velocity_y < 0
+end
+
 function collision:right_collision(c, approx_x)
   local x1 = self.x    local x2 = c:getX()
   local y1 = self.y    local y2 = c:getY()
