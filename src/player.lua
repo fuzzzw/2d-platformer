@@ -1,53 +1,13 @@
 local collision = require "collision"
 local player = collision:extend()
 
-function player:new(x,y,w,h,speed,y_velocity,jump_height,gravity)  -- The constructor
-  player.super.new(self,x,y,w,h)
-  self.speed       = speed or 200
-  self.y_velocity  = y_velocity or 0
-  self.jump_height = jump_height or -400
-  self.gravity     = gravity or -1000
-  self.ground      = love.graphics.getHeight() - h
-end
-
-function player:setGround(ground)
-  self.ground = ground
-end
-
-function player:setGravity(speed)
-  self.speed = speed
-end
-
-function player:setY_velocity(y_velocity)
-  self.y_velocity = y_velocity
-end
-
-function player:setJump_height(jump_height)
-  self.jump_height = jump_height
-end
-
-function player:setGravity(gravity)
-  self.gravity = gravity
-end
-
-function player:getGround()
-  return self.ground
-end
-
-function player:getSpeed()
-  return self.speed
-end
-
-function player:getY_velocity()
-  return self.y_velocity
-end
-
-function player:getJump_height()
-  return self.jump_height
-end
-
-function player:getGravity()
-  return self.gravity
+function player:new(obj)  -- The constructor
+  player.super.new(self,obj)
+  self.speed       = obj.speed or 200
+  self.y_velocity  = obj.y_velocity or 0
+  self.jump_height = obj.jump_height or -400
+  self.gravity     = obj.gravity or -1000
+  self.ground      = obj.ground or love.graphics.getHeight()
 end
 
 return player

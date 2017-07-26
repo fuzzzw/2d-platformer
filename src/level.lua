@@ -10,17 +10,17 @@ local function load(name)
   for x = 1, image:getWidth() do
     for y = 1, image:getHeight() do
       -- build entities from pixel posistion
-      local pixel = image:getPixel( x - 1, y - 1 )
+      local pixel = image:getPixel(x - 1, y - 1)
       if pixel ~= 255 then
-        new_entity = entity(
-          collision(
-            (x*10) - 10,
-            (y*10) - 10,
-            10,
-            10
-          ),
-          color(255,0,0)
-        )
+        new_entity = entity {
+          collision = collision {
+            x = (x*10) - 10,
+            y = (y*10) - 10,
+            w = 10,
+            h = 10
+          },
+          color = color {r = 255, g = 0, b = 0}
+        }
         entities[#entities+1] = new_entity
       end
     end
