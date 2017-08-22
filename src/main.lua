@@ -17,9 +17,7 @@ function love.load()
 end
 
 function love.update(dt)
-  local approx_x = 5
-  local approx_y = 15
-  controls.update(player,map,approx_x,approx_y,dt)
+  controls.update(player.collision,map,dt)
 end
 
 function love.draw()
