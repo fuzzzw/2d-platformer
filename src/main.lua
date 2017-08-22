@@ -1,4 +1,3 @@
-local controls = require "controls"
 local entity = require "entity"
 local color = require "color"
 local player = require "player"
@@ -17,7 +16,7 @@ function love.load()
 end
 
 function love.update(dt)
-  controls.update(player.collision,map,dt)
+  player.collision:update(map,dt)
 end
 
 function love.draw()
