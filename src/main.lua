@@ -10,13 +10,20 @@ function love.load()
   map = maps[0][0]
 
   player = entity {
-    collision = player {x = 10, y = 300, w = 32, h = 32},
+    collision = player(),
     color = color {r = 0, g = 0, b = 255}
   }
 end
 
 function love.update(dt)
   player.collision:update(map,dt)
+
+  -- only for debug
+  if love.keyboard.isDown('r') then
+    player.collision.x = 10
+    player.collision.y = 300
+    map = maps[0][0]
+  end
 end
 
 function love.draw()

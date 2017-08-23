@@ -2,7 +2,17 @@ local collision = require "collision"
 local player = collision:extend()
 
 function player:new(obj)  -- The constructor
-  player.super.new(self,obj)
+  if type(obj) ~= "table" then
+    obj = {}
+  end
+
+  player.super.new(self,{
+    x = obj.x or 10,
+    y = obj.y or 300,
+    w = obj.w or 32,
+    h = obj.h or 32
+  })
+
   self.speed       = obj.speed or 200
   self.y_velocity  = obj.y_velocity or 0
   self.jump_height = obj.jump_height or -400
@@ -57,23 +67,19 @@ end
 
 local function leftOrRightBlock(player,entities,dt)
   if love.keyboard.isDown('right') then
-    if player.x < (love.graphics.getWidth() - player.w) then
-      player.x = player.x + (player.speed * dt)
-      for _, entity in ipairs(entities) do
-        if player:check_collision(entity.collision) then
-          player.x = entity.collision.x - player.w
-          break
-        end
+    player.x = player.x + (player.speed * dt)
+    for _, entity in ipairs(entities) do
+      if player:check_collision(entity.collision) then
+        player.x = entity.collision.x - player.w
+        break
       end
     end
   elseif love.keyboard.isDown('left') then
-    if player.x > 0 then
-      player.x = player.x - (player.speed * dt)
-      for _, entity in ipairs(entities) do
-        if player:check_collision(entity.collision) then
-          player.x = entity.collision.x + entity.collision.w
-          break
-        end
+    player.x = player.x - (player.speed * dt)
+    for _, entity in ipairs(entities) do
+      if player:check_collision(entity.collision) then
+        player.x = entity.collision.x + entity.collision.w
+        break
       end
     end
   end
