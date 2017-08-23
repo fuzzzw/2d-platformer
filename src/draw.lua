@@ -1,6 +1,6 @@
-local drawIt = {}
+local draw = {}
 
-local function draw(entity, color)
+local function draw_entity(entity, color)
   love.graphics.setColor(color.r, color.g, color.b)
   love.graphics.rectangle(
     'fill',
@@ -11,19 +11,19 @@ local function draw(entity, color)
   )
 end
 
-function drawIt.entity(entity)
-  draw(entity.collision,entity.color)
+function draw.entity(entity)
+  draw_entity(entity.collision,entity.color)
 end
 
-function drawIt.entities(entities)
+function draw.entities(entities)
   for _, entity in ipairs(entities) do
-    draw(entity.collision,entity.color)
+    draw.entity(entity)
   end
 end
 
-function drawIt.debug(string, debug_pos)
+function draw.debug(string, debug_pos)
   love.graphics.setColor(255,255,255)
   love.graphics.print(string,0,debug_pos*15)
 end
 
-return drawIt
+return draw

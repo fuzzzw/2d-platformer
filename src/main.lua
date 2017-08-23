@@ -2,7 +2,7 @@ local Entity = require "entity"
 local Color = require "color"
 local Player = require "player"
 local level = require "level"
-local draw = require "drawIt"
+local draw = require "draw"
 local map, maps
 
 function love.load()
