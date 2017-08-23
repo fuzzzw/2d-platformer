@@ -1,6 +1,6 @@
-local entity = require "entity"
-local color = require "color"
-local player = require "player"
+local Entity = require "entity"
+local Color = require "color"
+local Player = require "player"
 local level = require "level"
 local draw = require "drawIt"
 local map, maps
@@ -9,9 +9,9 @@ function love.load()
   maps = level.get()
   map = maps[0][0]
 
-  player = entity {
-    collision = player(),
-    color = color {r = 0, g = 0, b = 255}
+  player = Entity {
+    collision = Player(),
+    color = Color {r = 0, g = 0, b = 255}
   }
 end
 

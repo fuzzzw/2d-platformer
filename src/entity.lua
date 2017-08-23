@@ -1,11 +1,11 @@
-local object = require "classic"
-local collision = require "collision"
-local color = require "color"
-local entity = object:extend()
+local Object = require "classic"
+local Collision = require "collision"
+local Color = require "color"
+local Entity = Object:extend()
 
-function entity:new(obj)
-  self.collision = obj.collision or collision()
-  self.color     = obj.color or color()
+function Entity:new(obj)
+  self.collision = obj.collision or Collision()
+  self.color     = obj.color or Color()
 end
 
-return entity
+return Entity

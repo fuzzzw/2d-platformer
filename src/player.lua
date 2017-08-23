@@ -1,12 +1,12 @@
-local collision = require "collision"
-local player = collision:extend()
+local Collision = require "collision"
+local Player = Collision:extend()
 
-function player:new(obj)  -- The constructor
+function Player:new(obj)  -- The constructor
   if type(obj) ~= "table" then
     obj = {}
   end
 
-  player.super.new(self,{
+  Player.super.new(self,{
     x = obj.x or 10,
     y = obj.y or 300,
     w = obj.w or 32,
@@ -85,10 +85,10 @@ local function leftOrRightBlock(player,entities,dt)
   end
 end
 
-function player:update(map,dt)
+function Player:update(map,dt)
   fallingUpdate(self,map,dt)
   groundOrCeilingBlock(self,map,dt)
   leftOrRightBlock(self,map,dt)
 end
 
-return player
+return Player

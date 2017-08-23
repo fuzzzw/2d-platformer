@@ -1,6 +1,6 @@
-local collision = require "collision"
-local color = require "color"
-local entity = require "entity"
+local Collision = require "collision"
+local Color = require "color"
+local Entity = require "entity"
 local maps_dir = love.filesystem.getDirectoryItems("maps")
 local level = {}
 
@@ -12,16 +12,16 @@ local function load(name)
       -- build entities from pixel posistion
       local pixel = image:getPixel(x - 1, y - 1)
       if pixel ~= 255 then
-        new_entity = entity {
-          collision = collision {
+        entity = Entity {
+          collision = Collision {
             x = (x*10) - 10,
             y = (y*10) - 10,
             w = 10,
             h = 10
           },
-          color = color {r = 255, g = 0, b = 0}
+          color = Color {r = 255, g = 0, b = 0}
         }
-        entities[#entities+1] = new_entity
+        entities[#entities+1] = entity
       end
     end
   end
