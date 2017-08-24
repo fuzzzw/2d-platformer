@@ -2,6 +2,10 @@ local Object = require "classic"
 local Collision = Object:extend()
 
 function Collision:new(obj)  -- The constructor
+  if type(obj) ~= "table" then
+    obj = {}
+  end
+
   self.x = obj.x or 0 -- x posistion
   self.y = obj.y or 0 -- y posistion
   self.w = obj.w or 0 -- width
