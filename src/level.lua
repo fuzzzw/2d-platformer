@@ -40,11 +40,11 @@ function level.get()
     yd = yd + 0
 
     if xs == "n" then
-      xd = xd * -1
+      xd = -xd
     end
 
     if ys == "n" then
-      yd = yd * -1
+      yd = -yd
     end
 
     if maps[xd] == nil then

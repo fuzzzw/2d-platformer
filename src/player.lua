@@ -17,7 +17,6 @@ function Player:new(obj)  -- The constructor
   self.y_velocity  = obj.y_velocity or 0
   self.jump_height = obj.jump_height or -400
   self.gravity     = obj.gravity or -1000
-  self.ground      = obj.ground or love.graphics.getHeight()
 end
 
 local function fallingUpdate(player,entities,dt)
@@ -35,23 +34,18 @@ local function fallingUpdate(player,entities,dt)
     player.y = player.y + player.y_velocity * dt
     player.y_velocity = player.y_velocity - player.gravity * dt
   end
-
-  if player.y > player.ground then
-    playery_velocity = 0
-    player.y = player.ground
-  end
 end
 
 local function groundOrCeilingBlock(player,entities,dt)
   if player.y_velocity > 0 then
-    local check, entity = player:check_entities(entities)
-    if check then
+    local entity = player:check_entities(entities)
+    if entity then
       player.y_velocity = 0
       player.y = entity.collision.y - player.h
     end
   elseif player.y_velocity < 0 then
-    local check, entity = player:check_entities(entities)
-    if check then
+    local entity = player:check_entities(entities)
+    if entity then
       player.y_velocity = 1
       player.y = entity.collision.y + entity.collision.h
     end
@@ -61,14 +55,14 @@ end
 local function leftOrRightBlock(player,entities,dt)
   if love.keyboard.isDown('right') then
     player.x = player.x + (player.speed * dt)
-    local check, entity = player:check_entities(entities)
-    if check then
+    local entity = player:check_entities(entities)
+    if entity then
       player.x = entity.collision.x - player.w
     end
   elseif love.keyboard.isDown('left') then
     player.x = player.x - (player.speed * dt)
-    local check, entity = player:check_entities(entities)
-    if check then
+    local entity = player:check_entities(entities)
+    if entity then
       player.x = entity.collision.x + entity.collision.w
     end
   end

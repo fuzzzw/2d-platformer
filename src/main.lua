@@ -10,13 +10,19 @@ function love.load()
   map = maps[0][0]
 
   player = Entity {
-    collision = Player(),
+    collision = Player({x = 300, y = 20}),
     color = Color {r = 0, g = 0, b = 255}
   }
 end
 
 function love.update(dt)
   player.collision:update(map,dt)
+
+  -- only for debug
+  local res = player.collision:check_boundaries()
+  if res then
+    print("Out of bounce: "..res)
+  end
 
   -- only for debug
   if love.keyboard.isDown('r') then

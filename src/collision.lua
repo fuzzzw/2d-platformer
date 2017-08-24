@@ -31,11 +31,33 @@ end
 function Collision:check_entities(entities)
   for _, entity in ipairs(entities) do
     if self:check_entity(entity) then
-      return true, entity
+      return entity
     end
   end
 
-  return false, nil
+  return nil
+end
+
+function Collision:check_boundaries()
+  local boundarie_limit = 1
+  local which_side
+
+  local x = self.x
+  local y = self.y
+  local w = self.w
+  local h = self.h
+
+  if y <= -boundarie_limit - h then
+    which_side = "top"
+  elseif y >= love.graphics.getHeight() + h + boundarie_limit then
+    which_side = "bottom"
+  elseif x <= -boundarie_limit - w then
+    which_side = "left"
+  elseif x >= love.graphics.getWidth() + boundarie_limit then
+    which_side = "right"
+  end
+
+  return which_side
 end
 
 return Collision
