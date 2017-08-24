@@ -25,11 +25,8 @@ local function fallingUpdate(player,entities,dt)
     if love.keyboard.isDown('space') then
       player.y_velocity = player.jump_height
     else
-      for _, entity in ipairs(entities) do
-        if not player:check_collision(entity.collision) then
-          player.y_velocity = 1
-          break
-        end
+      if not player:check_entities(entities) then
+        player.y_velocity = 1
       end
     end
   end
@@ -47,20 +44,16 @@ end
 
 local function groundOrCeilingBlock(player,entities,dt)
   if player.y_velocity > 0 then
-    for _, entity in ipairs(entities) do
-      if player:check_collision(entity.collision) then
-        player.y_velocity = 0
-        player.y = entity.collision.y - player.h
-        break
-      end
+    local check, entity = player:check_entities(entities)
+    if check then
+      player.y_velocity = 0
+      player.y = entity.collision.y - player.h
     end
   elseif player.y_velocity < 0 then
-    for _, entity in ipairs(entities) do
-      if player:check_collision(entity.collision) then
-        player.y_velocity = 1
-        player.y = entity.collision.y + entity.collision.h
-        break
-      end
+    local check, entity = player:check_entities(entities)
+    if check then
+      player.y_velocity = 1
+      player.y = entity.collision.y + entity.collision.h
     end
   end
 end
@@ -68,19 +61,15 @@ end
 local function leftOrRightBlock(player,entities,dt)
   if love.keyboard.isDown('right') then
     player.x = player.x + (player.speed * dt)
-    for _, entity in ipairs(entities) do
-      if player:check_collision(entity.collision) then
-        player.x = entity.collision.x - player.w
-        break
-      end
+    local check, entity = player:check_entities(entities)
+    if check then
+      player.x = entity.collision.x - player.w
     end
   elseif love.keyboard.isDown('left') then
     player.x = player.x - (player.speed * dt)
-    for _, entity in ipairs(entities) do
-      if player:check_collision(entity.collision) then
-        player.x = entity.collision.x + entity.collision.w
-        break
-      end
+    local check, entity = player:check_entities(entities)
+    if check then
+      player.x = entity.collision.x + entity.collision.w
     end
   end
 end

@@ -12,16 +12,30 @@ function Collision:new(obj)  -- The constructor
   self.h = obj.h or 0 -- height
 end
 
-function Collision:check_collision(c)
-  local x1 = self.x    local x2 = c.x
-  local y1 = self.y    local y2 = c.y
-  local w1 = self.w    local w2 = c.w
-  local h1 = self.h    local h2 = c.h
+function Collision:check_collision(collision)
+  local x1 = self.x    local x2 = collision.x
+  local y1 = self.y    local y2 = collision.y
+  local w1 = self.w    local w2 = collision.w
+  local h1 = self.h    local h2 = collision.h
 
   return x1 < x2+w2 and
          x2 < x1+w1 and
          y1 < y2+h2 and
          y2 < y1+h1
+end
+
+function Collision:check_entity(entity)
+  return self:check_collision(entity.collision)
+end
+
+function Collision:check_entities(entities)
+  for _, entity in ipairs(entities) do
+    if self:check_entity(entity) then
+      return true, entity
+    end
+  end
+
+  return false, nil
 end
 
 return Collision
