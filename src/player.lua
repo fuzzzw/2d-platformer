@@ -19,7 +19,7 @@ function Player:new(obj)  -- The constructor
   self.gravity     = obj.gravity or -1000
 end
 
-local function y_axis_update(player,entities,dt)
+local function y_axis_update(player,map,dt)
   if player.y_velocity == 0 then
     if love.keyboard.isDown('space') then
       player.y_velocity = player.jump_height
@@ -34,13 +34,13 @@ local function y_axis_update(player,entities,dt)
   end
 
   if player.y_velocity > 0 then
-    local entity = player:check_entities(entities)
+    local entity = player:check_entities(map.all)
     if entity then
       player.y_velocity = 0
       player.y = entity.collision.y - player.h
     end
   elseif player.y_velocity < 0 then
-    local entity = player:check_entities(entities)
+    local entity = player:check_entities(map.all)
     if entity then
       player.y_velocity = 1
       player.y = entity.collision.y + entity.collision.h
@@ -48,16 +48,16 @@ local function y_axis_update(player,entities,dt)
   end
 end
 
-local function x_axis_update(player,entities,dt)
+local function x_axis_update(player,map,dt)
   if love.keyboard.isDown('right') then
     player.x = player.x + (player.speed * dt)
-    local entity = player:check_entities(entities)
+    local entity = player:check_entities(map.all)
     if entity then
       player.x = entity.collision.x - player.w
     end
   elseif love.keyboard.isDown('left') then
     player.x = player.x - (player.speed * dt)
-    local entity = player:check_entities(entities)
+    local entity = player:check_entities(map.all)
     if entity then
       player.x = entity.collision.x + entity.collision.w
     end

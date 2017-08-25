@@ -40,7 +40,7 @@ end
 
 function love.draw()
   draw.entity(player)
-  draw.entities(map)
+  draw.entities(map.all)
 
   --debug
   draw.debug("x:"..math.floor(player.collision.x)..", y:"..math.floor(player.collision.y),0)

@@ -6,22 +6,25 @@ local level = {}
 
 local function load(name)
   local image = love.image.newImageData(name)
-  local entities = {} -- build entities from pixel posistion
+  local entities = { all = {} }
+
   for x = 1, image:getWidth() do
     for y = 1, image:getHeight() do
       local r, g, b = image:getPixel(x - 1, y - 1)
-      local type
+      local entity_type
+      local found_entity = true
 
       if r == 255 and g == 0 and b == 0 then
-        type = "death"
+        entity_type = "death"
       elseif r == 0 and g == 0 and b == 0 then
         r = 255
         g = 255
         b = 255
-        type = "static"
+      else
+        found_entity = false
       end
 
-      if type then
+      if found_entity then
         entity = Entity {
           collision = Collision {
             x = (x*10) - 10,
@@ -29,10 +32,15 @@ local function load(name)
             w = 10,
             h = 10
           },
-          color = Color {r = r, g = g, b = b},
-          type = type
+          color = Color {r = r, g = g, b = b}
         }
-        entities[#entities+1] = entity
+        if entity_type then
+          if not entities[entity_type] then
+            entities[entity_type] = {}
+          end
+          entities[entity_type][#entities[entity_type] + 1] = entity
+        end
+        entities.all[#entities.all + 1] = entity
       end
     end
   end
