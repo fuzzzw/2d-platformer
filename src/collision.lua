@@ -29,9 +29,11 @@ function Collision:check_entity(entity)
 end
 
 function Collision:check_entities(entities)
-  for _, entity in ipairs(entities) do
-    if self:check_entity(entity) then
-      return entity
+  if entities then
+    for _, entity in ipairs(entities) do
+      if self:check_entity(entity) then
+        return entity
+      end
     end
   end
 

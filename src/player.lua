@@ -36,14 +36,24 @@ local function y_axis_update(player,map,dt)
   if player.y_velocity > 0 then
     local entity = player:check_entities(map.all)
     if entity then
-      player.y_velocity = 0
-      player.y = entity.collision.y - player.h
+      if player:check_entities(map.death) then
+        player.x = 300
+        player.y = 20
+      else
+        player.y_velocity = 0
+        player.y = entity.collision.y - player.h
+      end
     end
   elseif player.y_velocity < 0 then
     local entity = player:check_entities(map.all)
     if entity then
-      player.y_velocity = 1
-      player.y = entity.collision.y + entity.collision.h
+      if player:check_entities(map.death) then
+        player.x = 300
+        player.y = 20
+      else
+        player.y_velocity = 1
+        player.y = entity.collision.y + entity.collision.h
+      end
     end
   end
 end
@@ -53,13 +63,23 @@ local function x_axis_update(player,map,dt)
     player.x = player.x + (player.speed * dt)
     local entity = player:check_entities(map.all)
     if entity then
-      player.x = entity.collision.x - player.w
+      if player:check_entities(map.death) then
+        player.x = 300
+        player.y = 20
+      else
+        player.x = entity.collision.x - player.w
+      end
     end
   elseif love.keyboard.isDown('left') then
     player.x = player.x - (player.speed * dt)
     local entity = player:check_entities(map.all)
     if entity then
-      player.x = entity.collision.x + entity.collision.w
+      if player:check_entities(map.death) then
+        player.x = 300
+        player.y = 20
+      else
+        player.x = entity.collision.x + entity.collision.w
+      end
     end
   end
 end
