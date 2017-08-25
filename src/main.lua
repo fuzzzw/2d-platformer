@@ -30,8 +30,8 @@ function love.update(dt)
 
   -- only for debug
   if love.keyboard.isDown('r') then
-    player.collision.x = 10
-    player.collision.y = 300
+    player.collision.x = 300
+    player.collision.y = 20
     map_x = 0
     map_y = 0
     map = maps[map_x][map_y]

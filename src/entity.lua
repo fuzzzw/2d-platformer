@@ -10,6 +10,7 @@ function Entity:new(obj)
 
   self.collision = obj.collision or Collision()
   self.color     = obj.color or Color()
+  self.type      = obj.type
 end
 
 return Entity
