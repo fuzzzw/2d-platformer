@@ -39,21 +39,20 @@ function Collision:check_entities(entities)
 end
 
 function Collision:check_boundaries()
-  local boundarie_limit = 1
   local which_side
 
   local x = self.x
   local y = self.y
-  local w = self.w
-  local h = self.h
+  local half_w = (self.w / 2)
+  local half_h = (self.h / 2)
 
-  if y <= -boundarie_limit - h then
+  if y <= -half_h + 1 then
     which_side = "top"
-  elseif y >= love.graphics.getHeight() + h + boundarie_limit then
+  elseif y >= love.graphics.getHeight() + half_h - 1 then
     which_side = "bottom"
-  elseif x <= -boundarie_limit - w then
+  elseif x <= -half_w - 1 then
     which_side = "left"
-  elseif x >= love.graphics.getWidth() + boundarie_limit then
+  elseif x >= love.graphics.getWidth() - half_w + 1 then
     which_side = "right"
   end
 

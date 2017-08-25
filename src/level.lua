@@ -57,4 +57,29 @@ function level.get()
   return maps
 end
 
+function level.update(player,map_x,map_y)
+  local which_side = player:check_boundaries()
+  if which_side then
+    local half_w = player.w / 2
+    local half_h = player.h / 2
+
+    if which_side == "top" then
+      map_y = map_y + 1
+      player.y = love.graphics.getHeight() - half_h
+    elseif which_side == "bottom" then
+      map_y = map_y - 1
+      player.y = -half_h
+    elseif which_side == "right" then
+      map_x = map_x + 1
+      player.x = -half_w
+    else
+      map_x = map_x - 1
+      player.x = love.graphics.getWidth() - half_w
+    end
+    return map_x, map_y
+  end
+
+  return nil
+end
+
 return level
