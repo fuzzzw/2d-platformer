@@ -21,9 +21,19 @@ function draw.entities(entities)
   end
 end
 
-function draw.debug(string, debug_pos)
-  love.graphics.setColor(255,255,255)
-  love.graphics.print(string,0,debug_pos*15)
+local function draw_game_debug(context, color, posistion)
+  love.graphics.setColor(color.r, color.g, color.b)
+  love.graphics.print(context,0,posistion*15)
+end
+
+function draw.game_debug(debug_item)
+  draw_game_debug(debug_item.context,debug_item.color,debug_item.posistion)
+end
+
+function draw.game_debugs(game_debugs)
+  for _,game_debug in pairs(game_debugs) do
+    draw.game_debug(game_debug)
+  end
 end
 
 return draw
