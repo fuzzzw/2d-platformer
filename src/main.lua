@@ -39,15 +39,6 @@ function love.update(dt)
     map = maps[map_x][map_y]
   end
 
-  -- only for debug
-  if love.keyboard.isDown('r') then
-    player.collision.x = 300
-    player.collision.y = 20
-    map_x = 0
-    map_y = 0
-    map = maps[map_x][map_y]
-  end
-
   debug_items.xy.context         = "x:"..math.floor(player.collision.x)..", y:"..math.floor(player.collision.y)
   debug_items.y_velocity.context = "y_velocity: "..math.floor(player.collision.y_velocity)
 end
@@ -56,4 +47,9 @@ function love.draw()
   draw.entity(player)
   draw.entities(map.all)
   draw.game_debugs(debug_items)
+
+  if player.collision.dead then
+    print(love.graphics.getWidth()/2)
+    draw.text("You are dead! Press \"R\" to restart.",love.graphics.getWidth()/2,love.graphics.getHeight()/2)
+  end
 end

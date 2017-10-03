@@ -36,4 +36,9 @@ function draw.game_debugs(game_debugs)
   end
 end
 
+function draw.text(context,x,y)
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.print(context,x,y)
+end
+
 return draw

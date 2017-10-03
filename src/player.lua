@@ -17,11 +17,11 @@ function Player:new(obj)  -- The constructor
   self.y_velocity  = obj.y_velocity or 0
   self.jump_height = obj.jump_height or -400
   self.gravity     = obj.gravity or -1000
+  self.dead        = obj.dead or false
 end
 
 local function death(player)
-  player.x = 300
-  player.y = 20
+  player.dead = true
 end
 
 local function y_axis_update(player,map,dt)
@@ -85,9 +85,22 @@ local function x_axis_update(player,map,dt)
   end
 end
 
+function Player:reset()
+  player.x = 300
+  player.y = 20
+end
+
 function Player:update(map,dt)
-  y_axis_update(self,map,dt)
-  x_axis_update(self,map,dt)
+  if not self.dead then
+    y_axis_update(self,map,dt)
+    x_axis_update(self,map,dt)
+  end
+
+  if love.keyboard.isDown('r') then
+    self.x = 300
+    self.y = 20
+    self.dead = false
+  end
 end
 
 return Player
