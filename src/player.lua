@@ -19,6 +19,11 @@ function Player:new(obj)  -- The constructor
   self.gravity     = obj.gravity or -1000
 end
 
+local function death(player)
+  player.x = 300
+  player.y = 20
+end
+
 local function y_axis_update(player,map,dt)
   if player.y_velocity == 0 then
     if love.keyboard.isDown('space') then
@@ -37,8 +42,7 @@ local function y_axis_update(player,map,dt)
     local entity = player:check_entities(map.all)
     if entity then
       if player:check_entities(map.death) then
-        player.x = 300
-        player.y = 20
+        death(player)
       else
         player.y_velocity = 0
         player.y = entity.collision.y - player.h
@@ -48,8 +52,7 @@ local function y_axis_update(player,map,dt)
     local entity = player:check_entities(map.all)
     if entity then
       if player:check_entities(map.death) then
-        player.x = 300
-        player.y = 20
+        death(player)
       else
         player.y_velocity = 1
         player.y = entity.collision.y + entity.collision.h
@@ -64,8 +67,7 @@ local function x_axis_update(player,map,dt)
     local entity = player:check_entities(map.all)
     if entity then
       if player:check_entities(map.death) then
-        player.x = 300
-        player.y = 20
+        death(player)
       else
         player.x = entity.collision.x - player.w
       end
@@ -75,8 +77,7 @@ local function x_axis_update(player,map,dt)
     local entity = player:check_entities(map.all)
     if entity then
       if player:check_entities(map.death) then
-        player.x = 300
-        player.y = 20
+        death(player)
       else
         player.x = entity.collision.x + entity.collision.w
       end

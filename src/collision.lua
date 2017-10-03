@@ -49,13 +49,13 @@ function Collision:check_boundaries()
   local half_h = (self.h / 2)
 
   if y <= -half_h + 1 then
-    which_side = "top"
+    which_side = 0  -- top
   elseif y >= love.graphics.getHeight() + half_h - 1 then
-    which_side = "bottom"
+    which_side = 1  -- bottom
   elseif x <= -half_w - 1 then
-    which_side = "left"
+    which_side = 2  -- left
   elseif x >= love.graphics.getWidth() - half_w + 1 then
-    which_side = "right"
+    which_side = 3  --right
   end
 
   return which_side

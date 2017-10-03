@@ -82,16 +82,16 @@ function level.update(player,map_x,map_y)
     local half_w = player.w / 2
     local half_h = player.h / 2
 
-    if which_side == "top" then
+    if which_side == 0 then       -- top
       map_y = map_y + 1
       player.y = love.graphics.getHeight() - half_h
-    elseif which_side == "bottom" then
+    elseif which_side == 1 then   -- bottom
       map_y = map_y - 1
       player.y = -half_h
-    elseif which_side == "right" then
+    elseif which_side == 3 then   -- right
       map_x = map_x + 1
       player.x = -half_w
-    else
+    else                          -- left
       map_x = map_x - 1
       player.x = love.graphics.getWidth() - half_w
     end
