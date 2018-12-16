@@ -1,17 +1,18 @@
 local Entity = require "entity"
 local Color = require "color"
 local Player = require "player"
+local Map = require "map"
 local Game_debug = require "game_debug"
 local level = require "level"
 local draw = require "draw"
 
-local map, maps
+local maps
 local map_x = 0
 local map_y = 0
 local debug_items = {}
 
 function love.load()
-  maps = level.get()
+  maps = level.get_levels("maps/")
   map = maps[map_x][map_y]
 
   player = Entity {
@@ -49,7 +50,6 @@ function love.draw()
   draw.game_debugs(debug_items)
 
   if player.collision.dead then
-    print(love.graphics.getWidth()/2)
     draw.text("You are dead! Press \"R\" to restart.",love.graphics.getWidth()/2,love.graphics.getHeight()/2)
   end
 end

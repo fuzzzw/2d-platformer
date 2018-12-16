@@ -1,7 +1,6 @@
 local Collision = require "collision"
 local Color = require "color"
 local Entity = require "entity"
-local maps_dir = love.filesystem.getDirectoryItems("maps")
 local level = {}
 
 local function load(name)
@@ -48,10 +47,10 @@ local function load(name)
   return entities
 end
 
-function level.get()
-  local maps = {}
+function level.get_levels(dir)
+  local levels = {}
   local pattern = "_(%l)(%d-)_(%l)(%d-).png"
-  for _, v in ipairs(maps_dir) do
+  for _, v in ipairs(love.filesystem.getDirectoryItems(dir)) do
     local xs, xd, ys, yd = v:match(pattern)
 
     -- convert to numbers
@@ -66,14 +65,14 @@ function level.get()
       yd = -yd
     end
 
-    if maps[xd] == nil then
-      maps[xd] = {}
+    if levels[xd] == nil then
+      levels[xd] = {}
     end
 
-    maps[xd][yd] = load("maps/"..v)
+    levels[xd][yd] = load(dir..v)
   end
 
-  return maps
+  return levels
 end
 
 function level.update(player,map_x,map_y)
