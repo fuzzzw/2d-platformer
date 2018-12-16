@@ -13,7 +13,7 @@ local function load(name)
       local entity_type
       local found_entity = true
 
-      if r == 255 and g == 0 and b == 0 then
+      if r == 1 and g == 0 and b == 0 then
         entity_type = "death"
       elseif r == 0 and g == 0 and b == 0 then
         r = 255
