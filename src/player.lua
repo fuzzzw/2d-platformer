@@ -26,7 +26,7 @@ end
 
 local function y_axis_update(player,map,dt)
   if player.y_velocity == 0 then
-    if love.keyboard.isDown('space') then
+    if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
       player.y_velocity = player.jump_height
     else
       player.y_velocity = 1
@@ -62,7 +62,7 @@ local function y_axis_update(player,map,dt)
 end
 
 local function x_axis_update(player,map,dt)
-  if love.keyboard.isDown('right') then
+  if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
     player.x = player.x + (player.speed * dt)
     local entity = player:check_entities(map.all)
     if entity then
@@ -72,7 +72,7 @@ local function x_axis_update(player,map,dt)
         player.x = entity.collision.x - player.w
       end
     end
-  elseif love.keyboard.isDown('left') then
+  elseif love.keyboard.isDown('left') or love.keyboard.isDown('a') then
     player.x = player.x - (player.speed * dt)
     local entity = player:check_entities(map.all)
     if entity then
