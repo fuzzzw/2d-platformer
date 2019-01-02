@@ -6,9 +6,9 @@ function Map:new(obj)  -- The constructor
     obj = {}
   end
 
-  self.levels   = obj.levels or nil
-  self.level_x  = obj.level_x or nil
-  self.level_y  = obj.level_y or nil
+  self.entities = obj.entities or nil
+  self.spawn_x  = obj.spawn_x or nil
+  self.spawn_y  = obj.spawn_y or nil
 end
 
 return Map

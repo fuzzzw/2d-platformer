@@ -1,11 +1,14 @@
 local Collision = require "collision"
 local Color = require "color"
 local Entity = require "entity"
+local Map = require "map"
 local level = {}
 
 local function load(name)
   local image = love.image.newImageData(name)
   local entities = { all = {} }
+  local spawn_x = 0
+  local spawn_y = 0
 
   for x = 1, image:getWidth() do
     for y = 1, image:getHeight() do
@@ -15,6 +18,10 @@ local function load(name)
 
       if r == 1 and g == 0 and b == 0 then
         entity_type = "death"
+      elseif r == 0 and g == 1 and b == 0 then
+        spawn_x = x * 10
+        spawn_y = y * 10
+        found_entity = false
       elseif r == 0 and g == 0 and b == 0 then
         r = 255
         g = 255
@@ -39,12 +46,17 @@ local function load(name)
           end
           entities[entity_type][#entities[entity_type] + 1] = entity
         end
+
         entities.all[#entities.all + 1] = entity
       end
     end
   end
 
-  return entities
+  return Map {
+    entities = entities,
+    spawn_x = spawn_x,
+    spawn_y = spawn_y
+  }
 end
 
 function level.get_levels(dir)
