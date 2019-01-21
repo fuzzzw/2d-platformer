@@ -20,20 +20,24 @@ function Player:new(obj)  -- The constructor
   self.dead        = obj.dead or false
   self.spawn_x     = obj.spawn_x or 300
   self.spawn_y     = obj.spawn_y or 20
+  self.map_spawn_x = obj.map_spawn_x or 0
+  self.map_spawn_y = obj.map_spawn_y or 0
+  self.respawn     = obj.respawn or false
 end
 
 local function event_resolver(player, map ,func)
   local args = {
-    player = player
+    player = player,
+    map = map
   }
 
-  local scripted = player:check_entities(map.script)
+  local scripted = player:check_entities(map.entities.script)
   if scripted then
     args.entity = scripted
     scripted.script(args)
   end
 
-  local entity = player:check_entities(map.block)
+  local entity = player:check_entities(map.entities.block)
   if entity then
     args.entity = entity
     func(args)
@@ -92,6 +96,7 @@ function Player:update(map,dt)
   if love.keyboard.isDown('r') then
     self.x = self.spawn_x
     self.y = self.spawn_y
+    self.respawn = true
     self.dead = false
   end
 end

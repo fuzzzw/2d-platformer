@@ -48,6 +48,8 @@ local function load(name)
             b = b
           },
           script = function (args)
+            args.player.map_spawn_x = args.map.x
+            args.player.map_spawn_y = args.map.y
             args.player.spawn_x = args.entity.collision.x - args.entity.collision.w
             args.player.spawn_y = args.entity.collision.y - args.player.h
           end
@@ -108,7 +110,10 @@ function level.get_levels(dir)
       levels[xd] = {}
     end
 
-    levels[xd][yd] = load(dir..v)
+    map = load(dir..v)
+    map.x = xd
+    map.y = yd
+    levels[xd][yd] = map
   end
 
   return levels
