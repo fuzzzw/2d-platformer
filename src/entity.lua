@@ -8,10 +8,16 @@ function Entity:new(obj)
     obj = {}
   end
 
-  self.collision = obj.collision or Collision()
-  self.color     = obj.color or Color()
-  self.script    = obj.script or nil
-  self.block     = obj.block or false
+  self.collision  = obj.collision or Collision()
+  self.color      = obj.color or Color()
+  self.script     = obj.script or nil
+  self.block      = obj.block or false
+  self.updateable = obj.updateable or nil
+  self.time       = obj.time or 0
+end
+
+function Entity:iTime()
+  self.time = self.time + 1
 end
 
 return Entity

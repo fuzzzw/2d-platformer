@@ -9,7 +9,8 @@ local function load(name)
   local entities = {
     all = {},
     block = {},
-    script = {}
+    script = {},
+    updateable = {}
   }
 
   for x = 1, image:getWidth() do
@@ -54,6 +55,35 @@ local function load(name)
             args.player.spawn_y = args.entity.collision.y - args.player.h
           end
         }
+      elseif r == 1 and g == 0 and b == 1 then
+        entity = Entity {
+          collision = Collision {
+            x = (x*10) - 10,
+            y = (y*10) - 10,
+            w = 10,
+            h = 10
+          },
+          color = Color {
+            r = r,
+            g = g,
+            b = b
+          },
+          block = true,
+          updateable = function (args)
+            local moveAmount = 60
+            args.entity:iTime()
+
+            if args.entity.time > (moveAmount+1) then
+              args.entity.time = -moveAmount
+            end
+
+            if args.entity.time > 0 then
+              args.entity.collision.x = args.entity.collision.x - 1
+            else
+              args.entity.collision.x = args.entity.collision.x + 1
+            end
+          end
+        }
       elseif r == 0 and g == 0 and b == 0 then
         entity = Entity {
           collision = Collision {
@@ -74,8 +104,14 @@ local function load(name)
       if entity then
         if entity.script then
           entities.script[#entities.script + 1] = entity
-        elseif entity.block then
+        end
+
+        if entity.block then
           entities.block[#entities.block + 1] = entity
+        end
+
+        if entity.updateable then
+          entities.updateable[#entities.updateable + 1] = entity
         end
 
         entities.all[#entities.all + 1] = entity

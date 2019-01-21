@@ -38,6 +38,14 @@ function love.load()
 end
 
 function love.update(dt)
+  for _, entity in ipairs(map.entities.updateable) do
+    local args = {
+      entity = entity,
+      dt = dt
+    }
+    entity.updateable(args)
+  end
+
   player.collision:update(map,dt)
 
   local new_map_x, new_map_y
