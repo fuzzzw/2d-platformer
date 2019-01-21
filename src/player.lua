@@ -71,28 +71,21 @@ local function y_axis_update(player,map,dt)
   end
 end
 
-local function x_axis_update(player,map,dt)
-  if love.keyboard.isDown('right') then
-    player.x = player.x + (player.speed * dt)
-
-    event_resolver(player,map,function (args)
-      args.player.x = args.entity.collision.x - args.player.w
-    end)
-  elseif love.keyboard.isDown('left') then
-    player.x = player.x - (player.speed * dt)
-
-    event_resolver(player,map,function (args)
-      args.player.x = args.entity.collision.x + args.entity.collision.w
-    end)
-  end
-end
-
 function Player:update(map,dt)
   if not self.dead then
     y_axis_update(self,map,dt)
-    x_axis_update(self,map,dt)
+
+    -- Right
+    if love.keyboard.isDown('right') then
+      self.x = self.x + (self.speed * dt)
+
+    -- Left
+    elseif love.keyboard.isDown('left') then
+      self.x = self.x - (self.speed * dt)
+    end
   end
 
+  -- Respawn
   if love.keyboard.isDown('r') then
     self.x = self.spawn_x
     self.y = self.spawn_y

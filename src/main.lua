@@ -38,6 +38,8 @@ function love.load()
 end
 
 function love.update(dt)
+  player.collision:update(map,dt)
+
   for _, entity in ipairs(map.entities.updateable) do
     local args = {
       entity = entity,
@@ -46,7 +48,16 @@ function love.update(dt)
     entity.updateable(args)
   end
 
-  player.collision:update(map,dt)
+  local entity = player.collision:check_entities(map.entities.block)
+  if entity then
+
+    -- left and right collision rules
+    if player.collision.x < entity.collision.x then
+      player.collision.x = entity.collision.x - player.collision.w
+    else
+      player.collision.x = entity.collision.x + entity.collision.w
+    end
+  end
 
   local new_map_x, new_map_y
   if player.collision.respawn then
