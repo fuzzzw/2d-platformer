@@ -6,31 +6,18 @@ local level = {}
 
 local function load(name)
   local image = love.image.newImageData(name)
-  local entities = { all = {} }
-  local spawn_x = 0
-  local spawn_y = 0
+  local entities = {
+    all = {},
+    block = {},
+    script = {}
+  }
 
   for x = 1, image:getWidth() do
     for y = 1, image:getHeight() do
       local r, g, b = image:getPixel(x - 1, y - 1)
-      local entity_type
-      local found_entity = true
+      local entity = nil
 
       if r == 1 and g == 0 and b == 0 then
-        entity_type = "death"
-      elseif r == 0 and g == 1 and b == 0 then
-        spawn_x = x * 10
-        spawn_y = y * 10
-        found_entity = false
-      elseif r == 0 and g == 0 and b == 0 then
-        r = 255
-        g = 255
-        b = 255
-      else
-        found_entity = false
-      end
-
-      if found_entity then
         entity = Entity {
           collision = Collision {
             x = (x*10) - 10,
@@ -38,13 +25,55 @@ local function load(name)
             w = 10,
             h = 10
           },
-          color = Color {r = r, g = g, b = b}
-        }
-        if entity_type then
-          if not entities[entity_type] then
-            entities[entity_type] = {}
+          color = Color {
+            r = r,
+            g = g,
+            b = b
+          },
+          script = function (args)
+            args.player.dead = true
           end
-          entities[entity_type][#entities[entity_type] + 1] = entity
+        }
+      elseif r == 0 and g == 1 and b == 0 then
+        entity = Entity {
+          collision = Collision {
+            x = (x*10) - 10,
+            y = (y*10) - 10,
+            w = 10,
+            h = 10
+          },
+          color = Color {
+            r = r,
+            g = g,
+            b = b
+          },
+          script = function (args)
+            args.player.spawn_x = args.entity.collision.x - args.entity.collision.w
+            args.player.spawn_y = args.entity.collision.y - args.player.h
+          end
+        }
+      elseif r == 0 and g == 0 and b == 0 then
+        entity = Entity {
+          collision = Collision {
+            x = (x*10) - 10,
+            y = (y*10) - 10,
+            w = 10,
+            h = 10
+          },
+          color = Color {
+            r = 1,
+            g = 1,
+            b = 1
+          },
+          block = true
+        }
+      end
+
+      if entity then
+        if entity.script then
+          entities.script[#entities.script + 1] = entity
+        elseif entity.block then
+          entities.block[#entities.block + 1] = entity
         end
 
         entities.all[#entities.all + 1] = entity
@@ -53,9 +82,7 @@ local function load(name)
   end
 
   return Map {
-    entities = entities,
-    spawn_x = spawn_x,
-    spawn_y = spawn_y
+    entities = entities
   }
 end
 

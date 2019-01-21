@@ -10,6 +10,8 @@ function Entity:new(obj)
 
   self.collision = obj.collision or Collision()
   self.color     = obj.color or Color()
+  self.script    = obj.script or nil
+  self.block     = obj.block or false
 end
 
 return Entity

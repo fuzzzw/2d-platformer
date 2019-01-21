@@ -22,8 +22,22 @@ function Player:new(obj)  -- The constructor
   self.spawn_y     = obj.spawn_y or 20
 end
 
-local function death(player)
-  player.dead = true
+local function event_resolver(player, map ,func)
+  local args = {
+    player = player
+  }
+
+  local scripted = player:check_entities(map.script)
+  if scripted then
+    args.entity = scripted
+    scripted.script(args)
+  end
+
+  local entity = player:check_entities(map.block)
+  if entity then
+    args.entity = entity
+    func(args)
+  end
 end
 
 local function y_axis_update(player,map,dt)
@@ -41,49 +55,31 @@ local function y_axis_update(player,map,dt)
   end
 
   if player.y_velocity > 0 then
-    local entity = player:check_entities(map.all)
-    if entity then
-      if player:check_entities(map.death) then
-        death(player)
-      else
-        player.y_velocity = 0
-        player.y = entity.collision.y - player.h
-      end
-    end
+    event_resolver(player,map,function (args)
+      args.player.y_velocity = 0
+      args.player.y = args.entity.collision.y - args.player.h
+    end)
   elseif player.y_velocity < 0 then
-    local entity = player:check_entities(map.all)
-    if entity then
-      if player:check_entities(map.death) then
-        death(player)
-      else
-        player.y_velocity = 1
-        player.y = entity.collision.y + entity.collision.h
-      end
-    end
+    event_resolver(player,map,function (args)
+      args.player.y_velocity = 1
+      args.player.y = args.entity.collision.y + args.entity.collision.h
+    end)
   end
 end
 
 local function x_axis_update(player,map,dt)
   if love.keyboard.isDown('right') then
     player.x = player.x + (player.speed * dt)
-    local entity = player:check_entities(map.all)
-    if entity then
-      if player:check_entities(map.death) then
-        death(player)
-      else
-        player.x = entity.collision.x - player.w
-      end
-    end
+
+    event_resolver(player,map,function (args)
+      args.player.x = args.entity.collision.x - args.player.w
+    end)
   elseif love.keyboard.isDown('left') then
     player.x = player.x - (player.speed * dt)
-    local entity = player:check_entities(map.all)
-    if entity then
-      if player:check_entities(map.death) then
-        death(player)
-      else
-        player.x = entity.collision.x + entity.collision.w
-      end
-    end
+
+    event_resolver(player,map,function (args)
+      args.player.x = args.entity.collision.x + args.entity.collision.w
+    end)
   end
 end
 

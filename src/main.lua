@@ -17,10 +17,8 @@ function love.load()
 
   player = Entity {
     collision = Player {
-      x = map.spawn_x,
-      y = map.spawn_y,
-      spawn_x = map.spawn_x,
-      spawn_y = map.spawn_y
+      x = 300,
+      y = 20
     },
     color = Color {r = 0, g = 0, b = 255},
   }
@@ -43,8 +41,6 @@ function love.update(dt)
     map_x = new_map_x
     map_y = new_map_y
     map = levels[map_x][map_y]
-    player.collision.spawn_x = map.spawn_x == 0 and 300 or map.spawn_x
-    player.collision.spawn_y = map.spawn_y == 0 and 20  or map.spawn_y
   end
 
   debug_items.xy.context         = "x:"..math.floor(player.collision.x)..", y:"..math.floor(player.collision.y)
