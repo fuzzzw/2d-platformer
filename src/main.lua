@@ -38,8 +38,6 @@ function love.load()
 end
 
 function love.update(dt)
-  player.collision:update(map,dt)
-
   for _, entity in ipairs(map.entities.updateable) do
     local args = {
       entity = entity,
@@ -48,15 +46,40 @@ function love.update(dt)
     entity.updateable(args)
   end
 
-  local entity = player.collision:check_entities(map.entities.block)
-  if entity then
+  local entity = nil
 
-    -- left and right collision rules
+  player.collision:update_y(dt)
+  entity = player.collision:check_entities(map.entities.block)
+  if entity then
+    if player.collision.y < entity.collision.y then
+      player.collision.y_velocity = 0
+      player.collision.y = entity.collision.y - player.collision.h
+    elseif player.collision.y_velocity < 0 then
+      player.collision.y_velocity = 1
+      player.collision.y = entity.collision.y + entity.collision.h
+    end
+  end
+
+  player.collision:update_x(dt)
+  entity = player.collision:check_entities(map.entities.block)
+  if entity then
     if player.collision.x < entity.collision.x then
       player.collision.x = entity.collision.x - player.collision.w
     else
       player.collision.x = entity.collision.x + entity.collision.w
     end
+  end
+
+  player.collision:update_other()
+
+  entity = player.collision:check_entities(map.entities.script)
+  if entity then
+    local args = {
+      player = player.collision,
+      map = map,
+      entity = entity
+    }
+    entity.script(args)
   end
 
   local new_map_x, new_map_y

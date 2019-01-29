@@ -25,66 +25,38 @@ function Player:new(obj)  -- The constructor
   self.respawn     = obj.respawn or false
 end
 
-local function event_resolver(player, map ,func)
-  local args = {
-    player = player,
-    map = map
-  }
-
-  local scripted = player:check_entities(map.entities.script)
-  if scripted then
-    args.entity = scripted
-    scripted.script(args)
+function Player:update_y(dt)
+  if self.dead then
+    return
   end
 
-  local entity = player:check_entities(map.entities.block)
-  if entity then
-    args.entity = entity
-    func(args)
-  end
-end
-
-local function y_axis_update(player,map,dt)
-  if player.y_velocity == 0 then
+  if self.y_velocity == 0 then
     if love.keyboard.isDown('space') then
-      player.y_velocity = player.jump_height
+      self.y_velocity = self.jump_height
     else
-      player.y_velocity = 1
+      self.y_velocity = 50
     end
   end
 
-  if player.y_velocity ~= 0 then
-    player.y = player.y + player.y_velocity * dt
-    player.y_velocity = player.y_velocity - player.gravity * dt
-  end
-
-  if player.y_velocity > 0 then
-    event_resolver(player,map,function (args)
-      args.player.y_velocity = 0
-      args.player.y = args.entity.collision.y - args.player.h
-    end)
-  elseif player.y_velocity < 0 then
-    event_resolver(player,map,function (args)
-      args.player.y_velocity = 1
-      args.player.y = args.entity.collision.y + args.entity.collision.h
-    end)
+  if self.y_velocity ~= 0 then
+    self.y = self.y + self.y_velocity * dt
+    self.y_velocity = self.y_velocity - self.gravity * dt
   end
 end
 
-function Player:update(map,dt)
-  if not self.dead then
-    y_axis_update(self,map,dt)
-
-    -- Right
-    if love.keyboard.isDown('right') then
-      self.x = self.x + (self.speed * dt)
-
-    -- Left
-    elseif love.keyboard.isDown('left') then
-      self.x = self.x - (self.speed * dt)
-    end
+function Player:update_x(dt)
+  if self.dead then
+    return
   end
 
+  if love.keyboard.isDown('right') then
+    self.x = self.x + (self.speed * dt)
+  elseif love.keyboard.isDown('left') then
+    self.x = self.x - (self.speed * dt)
+  end
+end
+
+function Player:update_other()
   -- Respawn
   if love.keyboard.isDown('r') then
     self.x = self.spawn_x
