@@ -18,7 +18,8 @@ function love.load()
   player = Entity {
     collision = Player {
       x = 300,
-      y = 20
+      y = 20,
+      jump_height = -250
     },
     color = Color {r = 0, g = 0, b = 255},
   }
