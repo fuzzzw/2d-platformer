@@ -67,7 +67,7 @@ function love.update(dt)
     if player.collision.x < entity.collision.x then
       player.collision.x = entity.collision.x - player.collision.w
     else
-      player.collision.x = entity.collision.x + entity.collision.w
+      player.collision.x = entity.collision.x + entity.collision.w + 1
     end
   end
 
