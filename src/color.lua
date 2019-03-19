@@ -6,9 +6,14 @@ function Color:new(obj)  -- The constructor
     obj = {}
   end
 
-  self.r = obj.r or 0 -- r red
-  self.g = obj.g or 0 -- g green
-  self.b = obj.b or 0 -- b blue
+  self.r = toFloat(obj.r) or 0 -- r red
+  self.g = toFloat(obj.g) or 0 -- g green
+  self.b = toFloat(obj.b) or 0 -- b blue
+end
+
+
+function toFloat(color)
+  return color/255
 end
 
 return Color

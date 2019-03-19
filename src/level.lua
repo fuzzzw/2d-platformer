@@ -17,8 +17,11 @@ local function load(name)
     for y = 1, image:getHeight() do
       local r, g, b = image:getPixel(x - 1, y - 1)
       local entity = nil
+      r = r * 255
+      g = g * 255
+      b = b * 255
 
-      if r == 1 and g == 0 and b == 0 then
+      if r == 255 and g == 0 and b == 0 then
         entity = Entity {
           collision = Collision {
             x = (x*10) - 10,
@@ -35,7 +38,7 @@ local function load(name)
             args.player.dead = true
           end
         }
-      elseif r == 0 and g == 1 and b == 0 then
+      elseif r == 0 and g == 255 and b == 0 then
         entity = Entity {
           collision = Collision {
             x = (x*10) - 10,
@@ -55,7 +58,7 @@ local function load(name)
             args.player.spawn_y = args.entity.collision.y - args.player.h
           end
         }
-      elseif r == 1 and g == 0 and b == 1 then
+      elseif r == 255 and g == 0 and b == 255 then
         entity = Entity {
           collision = Collision {
             x = (x*10) - 10,
@@ -85,7 +88,7 @@ local function load(name)
             end
           end
         }
-      elseif r == 1 and g == 1 and b == 0 then
+      elseif r == 255 and g == 255 and b == 0 then
         entity = Entity {
           collision = Collision {
             x = (x*10) - 10,
@@ -124,9 +127,9 @@ local function load(name)
             h = 10
           },
           color = Color {
-            r = 1,
-            g = 1,
-            b = 1
+            r = 255,
+            g = 255,
+            b = 255
           },
           block = true
         }
