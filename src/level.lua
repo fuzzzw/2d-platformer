@@ -38,6 +38,20 @@ local function load(name)
             args.player.dead = true
           end
         }
+      elseif r == 51 and g == 51 and b == 51 then
+        entity = Entity {
+          collision = Collision {
+            x = (x*10) - 10,
+            y = (y*10) - 10,
+            w = 10,
+            h = 10
+          },
+          color = Color {
+            r = 255,
+            g = 255,
+            b = 255
+          }
+        }
       elseif r == 0 and g == 255 and b == 0 then
         entity = Entity {
           collision = Collision {
@@ -115,6 +129,38 @@ local function load(name)
               args.entity.collision.x = args.entity.collision.x - speed * args.dt
             else
               args.entity.collision.x = args.entity.collision.x + speed * args.dt
+            end
+          end
+        }
+      elseif r == 45 and g == 212 and b == 255 then
+        entity = Entity {
+          collision = Collision {
+            x = (x*10) - 10,
+            y = (y*10) - 10,
+            w = 10,
+            h = 10
+          },
+          color = Color {
+            r = r,
+            g = g,
+            b = b
+          },
+          block = true,
+          updateable = function (args)
+            local moveAmount = 60
+            local speed = 30
+            args.entity:iTime()
+
+            if args.entity.time > (moveAmount+1) then
+              args.entity.time = -moveAmount
+            end
+
+            if args.entity.time > 0 then
+              args.entity.collision.x = args.entity.collision.x - speed * args.dt
+              args.entity.collision.y = args.entity.collision.y - speed * args.dt
+            else
+              args.entity.collision.x = args.entity.collision.x + speed * args.dt
+              args.entity.collision.y = args.entity.collision.y + speed * args.dt
             end
           end
         }

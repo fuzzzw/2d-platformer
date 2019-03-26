@@ -15,7 +15,7 @@ function Player:new(obj)  -- The constructor
 
   self.speed       = obj.speed or 200
   self.y_velocity  = obj.y_velocity or 0
-  self.jump_height = obj.jump_height or -400
+  self.jump_height = obj.jump_height or -300
   self.gravity     = obj.gravity or -1000
   self.dead        = obj.dead or false
   self.spawn_x     = obj.spawn_x or 300
@@ -23,6 +23,7 @@ function Player:new(obj)  -- The constructor
   self.map_spawn_x = obj.map_spawn_x or 0
   self.map_spawn_y = obj.map_spawn_y or 0
   self.respawn     = obj.respawn or false
+
 end
 
 function Player:update_y(dt)
@@ -31,12 +32,14 @@ function Player:update_y(dt)
   end
 
   if self.y_velocity == 0 then
-    if love.keyboard.isDown('space') then
+    if love.keyboard.isDown('w', 'up', 'space') then
       self.y_velocity = self.jump_height
     else
       self.y_velocity = 50
     end
   end
+
+
 
   if self.y_velocity ~= 0 then
     self.y = self.y + self.y_velocity * dt
@@ -49,9 +52,9 @@ function Player:update_x(dt)
     return
   end
 
-  if love.keyboard.isDown('right') then
+  if love.keyboard.isDown('d', 'right') then
     self.x = self.x + (self.speed * dt)
-  elseif love.keyboard.isDown('left') then
+  elseif love.keyboard.isDown('a', 'left') then
     self.x = self.x - (self.speed * dt)
   end
 end
