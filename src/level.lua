@@ -155,13 +155,7 @@ local function load(name)
               args.entity.time = -moveAmount
             end
 
-            if args.entity.time > 0 then
-              args.entity.collision.x = args.entity.collision.x - speed * args.dt
-              args.entity.collision.y = args.entity.collision.y - speed * args.dt
-            else
-              args.entity.collision.x = args.entity.collision.x + speed * args.dt
-              args.entity.collision.y = args.entity.collision.y + speed * args.dt
-            end
+            args.entity.collision.y = args.entity.collision.y - speed * args.dt
           end
         }
       elseif r == 0 and g == 0 and b == 0 then
